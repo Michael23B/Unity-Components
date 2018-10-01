@@ -10,6 +10,8 @@ public class GridController : MonoBehaviour
 
     public Tile Tile;
 
+    public TileShape TileShape = TileShape.Square;
+
     Tile[,] grid;
     Dictionary<int, Vector2Int> positionMap = new Dictionary<int, Vector2Int>();
 
@@ -69,14 +71,28 @@ public class GridController : MonoBehaviour
         {
             for (int y = 0; y < columns; ++y)
             {
-                float tilePosX = startPos.x + x * GridMargin.x;
-                float tilePosY = startPos.z + y * GridMargin.y;
-
-                Vector3 position = new Vector3(tilePosX, startPos.y, tilePosY);
+                Vector3 position = GetTilePosition(x, y, startPos);
                 grid[x, y] = Instantiate(Tile, position, Quaternion.identity);
                 grid[x, y].transform.parent = transform;
             }
         }
+    }
+
+    private Vector3 GetTilePosition(int x, int y, Vector3 startPos)
+    {
+        float xOffset = x * GridMargin.x;
+        float yOffset = y * GridMargin.y;
+
+        if (TileShape == TileShape.Hex)
+        {
+            xOffset = x * (Mathf.Sqrt(3) / 2 * GridMargin.x);
+            if (y % 2 == 1) xOffset -= (Mathf.Sqrt(3) / 2 * GridMargin.x) / 2;
+        }
+
+        float tilePosX = startPos.x + xOffset;
+        float tilePosY = startPos.z + yOffset;
+
+        return new Vector3(tilePosX, startPos.y, tilePosY);
     }
 
     private bool IsValidTile(int x, int y)
@@ -85,3 +101,9 @@ public class GridController : MonoBehaviour
         return true;
     }
 }
+
+public enum TileShape
+{
+    Square,
+    Hex
+};
