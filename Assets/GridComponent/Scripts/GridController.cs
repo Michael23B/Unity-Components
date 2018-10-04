@@ -63,6 +63,11 @@ public class GridController : MonoBehaviour
         return grid[currentPos.x, currentPos.y].GetPositionWithOffset();
     }
 
+    public void HoverEvent(Tile hoveredTile)
+    {
+        Debug.Log("Tile Hovered");
+    }
+
     private void GenerateTiles(int rows, int columns)
     {
         Vector3 startPos = StartPosition;
