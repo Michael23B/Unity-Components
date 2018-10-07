@@ -2,7 +2,7 @@
 
 public class PlayerController : MonoBehaviour
 {
-    GridController gridController;
+    private GridController gridController;
     private int id;
 
     private void Start()

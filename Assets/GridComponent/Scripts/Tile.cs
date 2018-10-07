@@ -2,7 +2,7 @@
 
 public class Tile : MonoBehaviour
 {
-    public GameObject Body;
+    public GameObject BodyGameObject;
 
     //Offset is the distance from the middle to the top of the body
     public float Offset { get; set; }
@@ -11,7 +11,7 @@ public class Tile : MonoBehaviour
 
     private void Awake()
     {
-        body = Instantiate(Body, transform.position, transform.rotation);
+        body = Instantiate(BodyGameObject, transform.position, transform.rotation);
         body.transform.parent = transform;
 
         //The offset is half of the bodies height

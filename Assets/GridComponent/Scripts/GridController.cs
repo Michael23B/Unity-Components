@@ -19,6 +19,7 @@ public class GridController : MonoBehaviour
     {
         grid = new Tile[Rows, Columns];
         GenerateTiles(Rows, Columns);
+        EventHandler.Instance.StartListening("TileHovered", HoverEvent);
     }
 
     //Starts tracking a unit on the grid
@@ -63,7 +64,7 @@ public class GridController : MonoBehaviour
         return grid[currentPos.x, currentPos.y].GetPositionWithOffset();
     }
 
-    public void HoverEvent(Tile hoveredTile)
+    public void HoverEvent()
     {
         Debug.Log("Tile Hovered");
     }
