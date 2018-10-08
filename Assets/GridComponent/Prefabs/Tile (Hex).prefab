@@ -43,4 +43,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fccab9b44ae078428f2d3391998f3c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Body: {fileID: 1532915141164299448, guid: 1a535477c3239fe478e3e3b15aadf03a, type: 3}
+  BodyGameObject: {fileID: 1532915141164299448, guid: 1a535477c3239fe478e3e3b15aadf03a, type: 3}

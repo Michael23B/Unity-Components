@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class Raycast : MonoBehaviour
 {
@@ -17,6 +18,6 @@ public class Raycast : MonoBehaviour
         Transform objectHit = hit.transform;
         Tile hoveredTile = objectHit?.transform?.parent?.GetComponent<Tile>();
 
-        if (hoveredTile) EventHandler.Instance.TriggerEvent("TileHovered");
+        if (hoveredTile) EventHandler.Instance.TriggerEvent("TileHovered", this, new TileEventArgs(hoveredTile));
     }
 }

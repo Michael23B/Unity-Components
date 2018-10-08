@@ -1,12 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using Object = UnityEngine.Object;
 
 public class EventHandler : MonoBehaviour
 {
     public static EventHandler Instance { get; private set; }
 
-    private Dictionary<string, UnityEvent> eventDictionary = new Dictionary<string, UnityEvent>();
+    private Dictionary<string, GenericEvent> eventDictionary = new Dictionary<string, GenericEvent>();
 
     private void Awake()
     {
@@ -15,9 +17,9 @@ public class EventHandler : MonoBehaviour
         else Instance = this;
     }
 
-    public void StartListening(string eventName, UnityAction listener)
+    public void StartListening(string eventName, UnityAction<Object, EventArgs> listener)
     {
-        UnityEvent thisEvent;
+        GenericEvent thisEvent;
 
         if (Instance.eventDictionary.TryGetValue(eventName, out thisEvent))
         {
@@ -25,15 +27,15 @@ public class EventHandler : MonoBehaviour
         }
         else
         {
-            thisEvent = new UnityEvent();
+            thisEvent = new GenericEvent();
             thisEvent.AddListener(listener);
             Instance.eventDictionary.Add(eventName, thisEvent);
         }
     }
 
-    public void StopListening(string eventName, UnityAction listener)
+    public void StopListening(string eventName, UnityAction<Object, EventArgs> listener)
     {
-        UnityEvent thisEvent;
+        GenericEvent thisEvent;
 
         if (Instance.eventDictionary.TryGetValue(eventName, out thisEvent))
         {
@@ -41,13 +43,13 @@ public class EventHandler : MonoBehaviour
         }
     }
 
-    public void TriggerEvent(string eventName)
+    public void TriggerEvent(string eventName, Object sender = null, EventArgs e = null)
     {
-        UnityEvent thisEvent;
+        GenericEvent thisEvent;
 
         if (Instance.eventDictionary.TryGetValue(eventName, out thisEvent))
         {
-            thisEvent.Invoke();
+            thisEvent.Invoke(sender, e);
         }
     }
 }

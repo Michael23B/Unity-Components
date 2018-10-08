@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 public class GridController : MonoBehaviour
 {
@@ -19,7 +21,7 @@ public class GridController : MonoBehaviour
     {
         grid = new Tile[Rows, Columns];
         GenerateTiles(Rows, Columns);
-        EventHandler.Instance.StartListening("TileHovered", HoverEvent);
+        EventHandler.Instance.StartListening("TileHovered", OnTileHover);
     }
 
     //Starts tracking a unit on the grid
@@ -64,11 +66,6 @@ public class GridController : MonoBehaviour
         return grid[currentPos.x, currentPos.y].GetPositionWithOffset();
     }
 
-    public void HoverEvent()
-    {
-        Debug.Log("Tile Hovered");
-    }
-
     private void GenerateTiles(int rows, int columns)
     {
         Vector3 startPos = StartPosition;
@@ -105,6 +102,21 @@ public class GridController : MonoBehaviour
     {
         if (x >= Rows || y >= Columns || x < 0 || y < 0) return false;
         return true;
+    }
+
+    //Events
+
+    private void OnTileHover(Object sender, EventArgs e)
+    {
+        TileEventArgs eventArgs = (TileEventArgs)e;
+        Raycast senderRaycast = (Raycast)sender;
+
+        HoverEvent(eventArgs.Tile);
+    }
+
+    private void HoverEvent(Tile tile)
+    {
+        Debug.Log($"Tile {tile.GetInstanceID()} hovered.");
     }
 }
 
