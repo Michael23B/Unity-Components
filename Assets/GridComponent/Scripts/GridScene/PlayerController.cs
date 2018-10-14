@@ -1,9 +1,13 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+using UnityEngine.Experimental.UIElements;
+using Object = UnityEngine.Object;
 
 public class PlayerController : MonoBehaviour
 {
     private GridController gridController;
     private int id;
+    private MoveTo movement;
 
     private void Start()
     {
@@ -13,6 +17,10 @@ public class PlayerController : MonoBehaviour
         gridController.AddUnitToPositionMap(id, 0, 0);
 
         TrySetPosition(gridController.GetUnitsPosition(id));
+
+        movement = GetComponent<MoveTo>();
+
+        EventHandler.Instance.StartListening("TileHovered", OnTileHover);
     }
 
     private void Update()
@@ -57,5 +65,18 @@ public class PlayerController : MonoBehaviour
 
         if (horizontalMoveAmount != 0 || verticalMoveAmount != 0)
             GridMoveByAmount(horizontalMoveAmount, verticalMoveAmount);
+    }
+
+    private void OnTileHover(Object sender, EventArgs e)
+    {
+        TileEventArgs eventArgs = (TileEventArgs)e;
+        Raycast senderRaycast = (Raycast)sender;
+
+        HoverEvent(eventArgs.Tile);
+    }
+
+    private void HoverEvent(Tile tile)
+    {
+        movement.StartMoving(tile.transform);
     }
 }

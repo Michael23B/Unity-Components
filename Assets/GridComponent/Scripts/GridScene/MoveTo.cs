@@ -1,22 +1,44 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class MoveTo : MonoBehaviour
 {
-    public GameObject thingy;
+    public float moveSpeed = 2.0f;
 
-    public Transform target;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    private float dist;
+    private Transform target;
+    private Transform startPos;
 
-    // Update is called once per frame
     void Update()
     {
-        
+        if (!target) return;
+
+        dist = Vector3.Distance(target.transform.position, transform.position);
+
+        if (dist < 0.1)
+        {
+            StopMoving();
+            return;
+        } 
+
+        transform.LookAt(target.transform);
+        transform.position = Vector3.MoveTowards(transform.position, target.transform.position, moveSpeed * Time.deltaTime);
     }
-    //https://www.youtube.com/watch?v=oXKyqAltCgI
+
+    public void StartMoving(Transform target)
+    {
+        startPos = transform;
+        this.target = target;
+    }
+
+    public void UndoMovement()
+    {
+        transform.position = startPos.position;
+        transform.rotation = startPos.rotation;
+        startPos = null;
+    }
+
+    public void StopMoving()
+    {
+        target = null;
+    }
 }
