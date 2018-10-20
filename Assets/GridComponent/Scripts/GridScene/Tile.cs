@@ -5,7 +5,7 @@ public class Tile : MonoBehaviour
     public GameObject BodyGameObject;
 
     //Offset is the distance from the middle to the top of the body
-    public float Offset { get; set; }
+    public float Offset { get; private set; }
 
     private GameObject body;
 
@@ -15,7 +15,7 @@ public class Tile : MonoBehaviour
         body.transform.parent = transform;
 
         //The offset is half of the bodies height
-        Offset = body.GetComponent<Renderer>().bounds.size.y / 2;
+        Offset = body.GetComponent<Renderer>().bounds.size.y / 2; //TODO Pivot from the bottom instead of center and use full height
     }
 
     //Returns the position of the top-center of the tile

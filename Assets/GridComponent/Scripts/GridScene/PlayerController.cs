@@ -1,6 +1,5 @@
 ﻿using System;
 using UnityEngine;
-using UnityEngine.Experimental.UIElements;
 using Object = UnityEngine.Object;
 
 public class PlayerController : MonoBehaviour
@@ -55,16 +54,16 @@ public class PlayerController : MonoBehaviour
     private void HandleInput()
     {
         //Handle grid movement with keys
-        int horizontalMoveAmount = 0;
-        int verticalMoveAmount = 0;
+        //int horizontalMoveAmount = 0;
+        //int verticalMoveAmount = 0;
 
-        if (Input.GetKeyDown(KeyCode.W)) verticalMoveAmount++;
-        if (Input.GetKeyDown(KeyCode.S)) verticalMoveAmount--;
-        if (Input.GetKeyDown(KeyCode.D)) horizontalMoveAmount++;
-        if (Input.GetKeyDown(KeyCode.A)) horizontalMoveAmount--;
+        //if (Input.GetKeyDown(KeyCode.W)) verticalMoveAmount++;
+        //if (Input.GetKeyDown(KeyCode.S)) verticalMoveAmount--;
+        //if (Input.GetKeyDown(KeyCode.D)) horizontalMoveAmount++;
+        //if (Input.GetKeyDown(KeyCode.A)) horizontalMoveAmount--;
 
-        if (horizontalMoveAmount != 0 || verticalMoveAmount != 0)
-            GridMoveByAmount(horizontalMoveAmount, verticalMoveAmount);
+        //if (horizontalMoveAmount != 0 || verticalMoveAmount != 0)
+        //    GridMoveByAmount(horizontalMoveAmount, verticalMoveAmount);
     }
 
     private void OnTileHover(Object sender, EventArgs e)
@@ -77,6 +76,6 @@ public class PlayerController : MonoBehaviour
 
     private void HoverEvent(Tile tile)
     {
-        movement.StartMoving(tile.transform);
+        movement.StartMoving(tile.GetPositionWithOffset());
     }
 }

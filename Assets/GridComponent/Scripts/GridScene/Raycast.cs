@@ -15,7 +15,7 @@ public class Raycast : MonoBehaviour
     void CheckHitTile(RaycastHit hit)
     {
         Transform objectHit = hit.transform;
-        Tile hoveredTile = objectHit?.transform?.parent?.GetComponent<Tile>();
+        Tile hoveredTile = objectHit?.parent?.GetComponent<Tile>(); //TODO need a better system for finding scripts. 
 
         if (hoveredTile) EventHandler.Instance.TriggerEvent("TileHovered", this, new TileEventArgs(hoveredTile));
     }
