@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 using Object = UnityEngine.Object;
 
 public class EventHandler : MonoBehaviour
 {
     public static EventHandler Instance { get; private set; }
 
-    private Dictionary<string, GenericEvent> eventDictionary = new Dictionary<string, GenericEvent>();
+    private Dictionary<string, Action<Object, EventArgs>> eventDictionary = new Dictionary<string, Action<Object, EventArgs>>();
 
     private void Awake()
     {
@@ -17,37 +16,32 @@ public class EventHandler : MonoBehaviour
         else Instance = this;
     }
 
-    public void StartListening(string eventName, UnityAction<Object, EventArgs> listener)
+    public void StartListening(string eventName, Action<Object, EventArgs> listener)
     {
-        GenericEvent thisEvent;
-
-        if (Instance.eventDictionary.TryGetValue(eventName, out thisEvent))
+        if (Instance.eventDictionary.TryGetValue(eventName, out var thisEvent))
         {
-            thisEvent.AddListener(listener);
+            thisEvent += listener;
+            Instance.eventDictionary[eventName] = thisEvent;
         }
         else
         {
-            thisEvent = new GenericEvent();
-            thisEvent.AddListener(listener);
+            thisEvent += listener;
             Instance.eventDictionary.Add(eventName, thisEvent);
         }
     }
 
-    public void StopListening(string eventName, UnityAction<Object, EventArgs> listener)
+    public void StopListening(string eventName, Action<Object, EventArgs> listener)
     {
-        GenericEvent thisEvent;
-
-        if (Instance.eventDictionary.TryGetValue(eventName, out thisEvent))
+        if (Instance.eventDictionary.TryGetValue(eventName, out var thisEvent))
         {
-            thisEvent.RemoveListener(listener);
+            thisEvent -= listener;
+            Instance.eventDictionary[eventName] = thisEvent;
         }
     }
 
     public void TriggerEvent(string eventName, Object sender = null, EventArgs e = null)
     {
-        GenericEvent thisEvent;
-
-        if (Instance.eventDictionary.TryGetValue(eventName, out thisEvent))
+        if (Instance.eventDictionary.TryGetValue(eventName, out var thisEvent))
         {
             thisEvent.Invoke(sender, e);
         }

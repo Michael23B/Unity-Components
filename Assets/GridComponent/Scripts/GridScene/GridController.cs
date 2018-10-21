@@ -12,7 +12,7 @@ public class GridController : MonoBehaviour
 
     public Tile Tile;
 
-    public TileShape TileShape = TileShape.Square;
+    public TileShape TileShape = TileShape.Hex;
 
     Tile[,] grid;
     Dictionary<int, Vector2Int> positionMap = new Dictionary<int, Vector2Int>();
@@ -21,7 +21,7 @@ public class GridController : MonoBehaviour
     {
         grid = new Tile[Rows, Columns];
         GenerateTiles(Rows, Columns);
-        EventHandler.Instance.StartListening("TileHovered", OnTileHover);
+        EventHandler.Instance.StartListening(Constants.EventNames.TileHovered, OnTileHover);
     }
 
     //Starts tracking a unit on the grid
@@ -116,7 +116,7 @@ public class GridController : MonoBehaviour
 
     private void HoverEvent(Tile tile)
     {
-        Debug.Log($"Tile {tile.GetInstanceID()} hovered.");
+        //Debug.Log($"Tile {tile.GetInstanceID()} hovered.");
     }
 }
 

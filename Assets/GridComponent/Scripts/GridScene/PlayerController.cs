@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
 
         movement = GetComponent<MoveTo>();
 
-        EventHandler.Instance.StartListening("TileHovered", OnTileHover);
+        EventHandler.Instance.StartListening(Constants.EventNames.TileHovered, OnTileHover);
     }
 
     private void Update()
