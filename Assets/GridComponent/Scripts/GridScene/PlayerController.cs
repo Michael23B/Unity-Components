@@ -19,7 +19,8 @@ public class PlayerController : MonoBehaviour
 
         movement = GetComponent<MoveTo>();
 
-        EventHandler.Instance.StartListening(Constants.EventNames.TileHovered, OnTileHover);
+        EventHandler.Instance.StartListening(Constants.EventNames.TileHover, OnTileHover);
+        EventHandler.Instance.StartListening(Constants.EventNames.TileClick, OnTileClick);
     }
 
     private void Update()
@@ -66,6 +67,8 @@ public class PlayerController : MonoBehaviour
         //    GridMoveByAmount(horizontalMoveAmount, verticalMoveAmount);
     }
 
+    //Events
+
     private void OnTileHover(Object sender, EventArgs e)
     {
         TileEventArgs eventArgs = (TileEventArgs)e;
@@ -75,6 +78,19 @@ public class PlayerController : MonoBehaviour
     }
 
     private void HoverEvent(Tile tile)
+    {
+        Debug.Log("Hover event called");
+    }
+
+    private void OnTileClick(Object sender, EventArgs e)
+    {
+        TileEventArgs eventArgs = (TileEventArgs)e;
+        Raycast senderRaycast = (Raycast)sender;
+
+        ClickEvent(eventArgs.Tile);
+    }
+
+    private void ClickEvent(Tile tile)
     {
         movement.StartMoving(tile.GetPositionWithOffset());
     }

@@ -4,19 +4,27 @@ public class Raycast : MonoBehaviour
 {
     void Update()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit = GetRaycastHit();
 
-        if (Physics.Raycast(ray, out RaycastHit hit))
-        {
-            CheckHitTile(hit);
-        }
+        CheckHitTile(hit);
+    }
+
+    RaycastHit GetRaycastHit()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Physics.Raycast(ray, out RaycastHit hit, 120f);
+        return hit;
     }
 
     void CheckHitTile(RaycastHit hit)
     {
         Transform objectHit = hit.transform;
-        Tile hoveredTile = objectHit?.parent?.GetComponent<Tile>(); //TODO need a better system for finding scripts. 
+        Tile hoveredTile = objectHit?.parent?.GetComponent<Tile>(); //Assumes the collider is a direct child of the script
 
-        if (hoveredTile) EventHandler.Instance.TriggerEvent("TileHovered", this, new TileEventArgs(hoveredTile));
+        if (hoveredTile)
+        {
+            string eventName = Input.GetMouseButtonDown(0) ? Constants.EventNames.TileClick : Constants.EventNames.TileHover;
+            EventHandler.Instance.TriggerEvent(eventName, this, new TileEventArgs(hoveredTile));
+        }
     }
 }

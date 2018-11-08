@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
+//TODO needs to be reworked slightly, not sure I want to keep the increment/decrement movement
+
 public class GridController : MonoBehaviour
 {
     public int Rows = 5;
@@ -21,7 +23,7 @@ public class GridController : MonoBehaviour
     {
         grid = new Tile[Rows, Columns];
         GenerateTiles(Rows, Columns);
-        EventHandler.Instance.StartListening(Constants.EventNames.TileHovered, OnTileHover);
+        EventHandler.Instance.StartListening(Constants.EventNames.TileHover, OnTileHover);
     }
 
     //Starts tracking a unit on the grid
