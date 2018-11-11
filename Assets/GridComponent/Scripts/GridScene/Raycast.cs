@@ -1,7 +1,17 @@
 ﻿using UnityEngine;
 
+//TODO Implement a more elegant way of using the raycast hit; a seperate file for functions to call based on the type of GO hit?
+
 public class Raycast : MonoBehaviour
 {
+    public static Raycast Instance { get; private set; }
+
+    void Awake()
+    {
+        //Singleton instance ensures we always have a single static access point to this class
+        if (Instance != null && Instance != this) Destroy(gameObject);
+        else Instance = this;
+    }
     void Update()
     {
         RaycastHit hit = GetRaycastHit();
@@ -23,7 +33,7 @@ public class Raycast : MonoBehaviour
 
         if (hoveredTile)
         {
-            string eventName = Input.GetMouseButtonDown(0) ? Constants.EventNames.TileClick : Constants.EventNames.TileHover;
+            string eventName = Input.GetMouseButtonDown(0) ? Constants.EventNames.TileClicked : Constants.EventNames.TileHovered;
             EventHandler.Instance.TriggerEvent(eventName, this, new TileEventArgs(hoveredTile));
         }
     }

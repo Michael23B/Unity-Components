@@ -1,97 +1,49 @@
-﻿using System;
-using UnityEngine;
-using Object = UnityEngine.Object;
+﻿using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    private GridController gridController;
-    private int id;
-    private MoveTo movement;
+    public static PlayerController Instance { get; private set; }
+    private MovementController movement;
+    private int selectedUnitId;
+    //TODO after movement refactor, we dont need to track entire unit object - only id
+    public Unit selectedUnit;
+
+    private void Awake()
+    {
+        //Singleton instance ensures we always have a single static access point to this class
+        if (Instance != null && Instance != this) Destroy(gameObject);
+        else Instance = this;
+    }
 
     private void Start()
     {
-        id = gameObject.GetInstanceID();
+        EventHandler.Instance.StartListening(Constants.EventNames.TileHovered, (sender, e) => TileHoverEvent(((TileEventArgs)e).Tile));
+        EventHandler.Instance.StartListening(Constants.EventNames.TileClicked, (sender, e) => TileClickEvent(((TileEventArgs)e).Tile));
 
-        gridController = FindObjectOfType<GridController>();
-        gridController.AddUnitToPositionMap(id, 0, 0);
-
-        TrySetPosition(gridController.GetUnitsPosition(id));
-
-        movement = GetComponent<MoveTo>();
-
-        EventHandler.Instance.StartListening(Constants.EventNames.TileHover, OnTileHover);
-        EventHandler.Instance.StartListening(Constants.EventNames.TileClick, OnTileClick);
+        //TODO remove this later
+        selectedUnit.Setup(0, 0);
     }
 
-    private void Update()
+    public void SelectUnit(int unitId)
     {
-        HandleInput();
+        selectedUnitId = unitId;
     }
 
-    private void OnDestroy()
+    #region Events
+
+    private void TileHoverEvent(Tile tile)
     {
-        gridController.RemoveUnitFromPositionMap(id);
+        //Debug.Log("Hover event called");
     }
 
-    //Tries to move this unit on the grid and returns whether it was successful
-    public bool GridMoveByAmount(int horizontal, int vertical)
+    private void TileClickEvent(Tile tile)
     {
-        Vector3? newPos = gridController.GetUnitsNewPosition(id, horizontal, vertical);
-
-        return TrySetPosition(newPos);
-    }
-
-    private bool TrySetPosition(Vector3? position)
-    {
-        if (position != null)
+        //If the position of this unit on the grid is successfully set, start moving to its new location.
+        if (GridController.Instance.SetPositionOfId(selectedUnit.Id, tile.X, tile.Y))
         {
-            gameObject.transform.position = (Vector3) position;
-            return true;
+            selectedUnit.movement.StartMoving(GridController.Instance.GetPositionById(selectedUnit.Id));
         }
-
-        return false;
     }
 
-    private void HandleInput()
-    {
-        //Handle grid movement with keys
-        //int horizontalMoveAmount = 0;
-        //int verticalMoveAmount = 0;
-
-        //if (Input.GetKeyDown(KeyCode.W)) verticalMoveAmount++;
-        //if (Input.GetKeyDown(KeyCode.S)) verticalMoveAmount--;
-        //if (Input.GetKeyDown(KeyCode.D)) horizontalMoveAmount++;
-        //if (Input.GetKeyDown(KeyCode.A)) horizontalMoveAmount--;
-
-        //if (horizontalMoveAmount != 0 || verticalMoveAmount != 0)
-        //    GridMoveByAmount(horizontalMoveAmount, verticalMoveAmount);
-    }
-
-    //Events
-
-    private void OnTileHover(Object sender, EventArgs e)
-    {
-        TileEventArgs eventArgs = (TileEventArgs)e;
-        Raycast senderRaycast = (Raycast)sender;
-
-        HoverEvent(eventArgs.Tile);
-    }
-
-    private void HoverEvent(Tile tile)
-    {
-        Debug.Log("Hover event called");
-    }
-
-    private void OnTileClick(Object sender, EventArgs e)
-    {
-        TileEventArgs eventArgs = (TileEventArgs)e;
-        Raycast senderRaycast = (Raycast)sender;
-
-        ClickEvent(eventArgs.Tile);
-    }
-
-    private void ClickEvent(Tile tile)
-    {
-        movement.StartMoving(tile.GetPositionWithOffset());
-    }
+    #endregion
 }

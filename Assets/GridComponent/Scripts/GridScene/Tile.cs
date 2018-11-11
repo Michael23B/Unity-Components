@@ -2,28 +2,38 @@
 
 public class Tile : MonoBehaviour
 {
-    public GameObject BodyGameObject;
+    public int X { get; private set; } = -1;
+    public int Y { get; private set; } = -1;
+    public int StoredId { get; set; } = -1;
+    public bool IsOccupied => StoredId != -1;
 
-    //Offset is the distance from the middle to the top of the body
-    public float Offset { get; private set; }
+    private bool initialized = false;
+    //Offset from the pivot to the top
+    [SerializeField] private float offset = 0;
 
-    private GameObject body;
-
-    private void Awake()
+    //Sets the x and y of a tile. Cannot be changed once it has been set.
+    public bool Setup(int x, int y)
     {
-        body = Instantiate(BodyGameObject, transform.position, transform.rotation);
-        body.transform.parent = transform;
+        if (initialized) return false;
 
-        //The offset is half of the bodies height
-        Offset = body.GetComponent<Renderer>().bounds.size.y / 2;
+        X = x;
+        Y = y;
+        initialized = true;
+
+        return true;
     }
 
     //Returns the position of the top-center of the tile
     public Vector3 GetPositionWithOffset()
     {
         Vector3 posWithOffset = transform.position;
-        posWithOffset.y += Offset;
-
+        posWithOffset.y += offset;
+        
         return posWithOffset;
+    }
+
+    public void RemoveStoredId()
+    {
+        StoredId = -1;
     }
 }
