@@ -1,22 +1,25 @@
-﻿using UnityEngine;
-
-//TODO Implement a more elegant way of using the raycast hit; a seperate file for functions to call based on the type of GO hit?
+﻿using System;
+using UnityEngine;
 
 public class Raycast : MonoBehaviour
 {
-    public static Raycast Instance { get; private set; }
+    private Func<RaycastHit, bool>[] eventTriggers;
 
-    void Awake()
+    private void Awake()
     {
-        //Singleton instance ensures we always have a single static access point to this class
-        if (Instance != null && Instance != this) Destroy(gameObject);
-        else Instance = this;
+        //Add additional event triggers here
+        eventTriggers = new Func<RaycastHit, bool>[] {CheckHitTile};
     }
+
     void Update()
     {
         RaycastHit hit = GetRaycastHit();
 
-        CheckHitTile(hit);
+        //Loop through eventTriggers until one is successful
+        foreach (var eventTrigger in eventTriggers)
+        {
+            if (eventTrigger(hit)) break;
+        }
     }
 
     RaycastHit GetRaycastHit()
@@ -26,15 +29,26 @@ public class Raycast : MonoBehaviour
         return hit;
     }
 
-    void CheckHitTile(RaycastHit hit)
+
+    #region Event triggers
+    
+    //Event triggers return true if they fired successfully. Add each trigger to the eventTriggers array in the awake function.
+
+    //Fires TileClicked or TileHovered.
+    bool CheckHitTile(RaycastHit hit)
     {
         Transform objectHit = hit.transform;
-        Tile hoveredTile = objectHit?.parent?.GetComponent<Tile>(); //Assumes the collider is a direct child of the script
+        Tile hoveredTile = objectHit?.parent?.GetComponent<Tile>(); //Assumes the collider is a direct child of the Tile script.
 
         if (hoveredTile)
         {
             string eventName = Input.GetMouseButtonDown(0) ? Constants.EventNames.TileClicked : Constants.EventNames.TileHovered;
-            EventHandler.Instance.TriggerEvent(eventName, this, new TileEventArgs(hoveredTile));
+            EventHandler.TriggerEvent(eventName, this, new TileEventArgs(hoveredTile));
+            return true;
         }
+
+        return false;
     }
+
+    #endregion
 }

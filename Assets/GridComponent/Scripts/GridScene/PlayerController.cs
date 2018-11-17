@@ -1,27 +1,38 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
     public static PlayerController Instance { get; private set; }
+
     private MovementController movement;
     private int selectedUnitId;
-    //TODO after movement refactor, we dont need to track entire unit object - only id
     public Unit selectedUnit;
+
+    private Action<object, EventArgs> tileHoveredListener;
+    private Action<object, EventArgs> tileClickedListener;
 
     private void Awake()
     {
-        //Singleton instance ensures we always have a single static access point to this class
-        if (Instance != null && Instance != this) Destroy(gameObject);
-        else Instance = this;
+        Instance = this.GetAndEnforceSingleInstance(Instance);
     }
 
     private void Start()
     {
-        EventHandler.Instance.StartListening(Constants.EventNames.TileHovered, (sender, e) => TileHoverEvent(((TileEventArgs)e).Tile));
-        EventHandler.Instance.StartListening(Constants.EventNames.TileClicked, (sender, e) => TileClickEvent(((TileEventArgs)e).Tile));
+        tileHoveredListener = (sender, e) => TileHoverEvent(((TileEventArgs) e).Tile);
+        tileClickedListener = (sender, e) => TileClickEvent(((TileEventArgs) e).Tile);
+
+        tileHoveredListener.StartListening(Constants.EventNames.TileHovered);
+        tileClickedListener.StartListening(Constants.EventNames.TileClicked);
 
         //TODO remove this later
         selectedUnit.Setup(0, 0);
+    }
+
+    private void OnDestroy()
+    {
+        tileHoveredListener.StopListening(Constants.EventNames.TileHovered);
+        tileClickedListener.StopListening(Constants.EventNames.TileClicked);
     }
 
     public void SelectUnit(int unitId)
@@ -33,7 +44,7 @@ public class PlayerController : MonoBehaviour
 
     private void TileHoverEvent(Tile tile)
     {
-        //Debug.Log("Hover event called");
+        if (tile.IsOccupied) Debug.Log(tile.StoredId);
     }
 
     private void TileClickEvent(Tile tile)
