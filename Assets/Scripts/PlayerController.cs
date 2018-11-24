@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
@@ -7,7 +6,9 @@ public class PlayerController : MonoBehaviour
 
     private MovementController movement;
     private int selectedUnitId;
-    public Unit selectedUnit;
+    private Unit selectedUnit;
+    //TODO remove later, find some place to put it
+    public GameObject unitPrefab;
 
     private void Awake()
     {
@@ -19,8 +20,9 @@ public class PlayerController : MonoBehaviour
         Listener.CreateListener(transform, (sender, e) => TileHoverEvent(((TileEventArgs)e).Tile), Constants.EventNames.TileHovered);
         Listener.CreateListener(transform, (sender, e) => TileClickEvent(((TileEventArgs)e).Tile), Constants.EventNames.TileClicked);
 
-        //TODO remove this later
-        selectedUnit.Setup(0, 0);
+        //TODO remove later
+        selectedUnit = Unit.CreateAndRegisterUnit(unitPrefab, 0, 0);
+        Unit.CreateAndRegisterUnit(unitPrefab, 1, 0);
     }
 
     public void SelectUnit(int unitId)
@@ -37,9 +39,12 @@ public class PlayerController : MonoBehaviour
 
     private void TileClickEvent(Tile tile)
     {
+        //If the tile is occupied, select the unit stored in that tile
         if (tile.IsOccupied)
         {
             selectedUnitId = tile.StoredId;
+            selectedUnit = UnitRegistry.Instance.GetUnit(selectedUnitId);
+            return;
         }
 
         //If the position of this unit on the grid is successfully set, start moving to its new location.

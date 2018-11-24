@@ -28,7 +28,7 @@ public class GridController : MonoBehaviour
     }
 
     //Starts tracking a unit on the grid.
-    public bool StartTrackingId(int id, int startPosX, int startPosY)
+    public bool StartTracking(int id, int startPosX, int startPosY)
     {
         if (!IsValidTile(startPosX, startPosY) || idToPositionMap.ContainsKey(id)) return false;
 
@@ -39,7 +39,7 @@ public class GridController : MonoBehaviour
     }
 
     //Stops tracking a unit on the grid.
-    public bool StopTrackingId(int id)
+    public bool StopTracking(int id)
     {
         return idToPositionMap.Remove(id);
     }
