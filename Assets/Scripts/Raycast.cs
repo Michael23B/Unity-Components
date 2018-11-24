@@ -43,7 +43,7 @@ public class Raycast : MonoBehaviour
         if (hoveredTile)
         {
             string eventName = Input.GetMouseButtonDown(0) ? Constants.EventNames.TileClicked : Constants.EventNames.TileHovered;
-            EventHandler.TriggerEvent(eventName, this, new TileEventArgs(hoveredTile));
+            EventHandler.Invoke(eventName, this, new TileEventArgs(hoveredTile));
             return true;
         }
 

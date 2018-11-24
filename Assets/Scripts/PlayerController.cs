@@ -9,9 +9,6 @@ public class PlayerController : MonoBehaviour
     private int selectedUnitId;
     public Unit selectedUnit;
 
-    private Action<object, EventArgs> tileHoveredListener;
-    private Action<object, EventArgs> tileClickedListener;
-
     private void Awake()
     {
         Instance = this.GetAndEnforceSingleInstance(Instance);
@@ -19,20 +16,11 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        tileHoveredListener = (sender, e) => TileHoverEvent(((TileEventArgs) e).Tile);
-        tileClickedListener = (sender, e) => TileClickEvent(((TileEventArgs) e).Tile);
-
-        tileHoveredListener.StartListening(Constants.EventNames.TileHovered);
-        tileClickedListener.StartListening(Constants.EventNames.TileClicked);
+        Listener.CreateListener(transform, (sender, e) => TileHoverEvent(((TileEventArgs)e).Tile), Constants.EventNames.TileHovered);
+        Listener.CreateListener(transform, (sender, e) => TileClickEvent(((TileEventArgs)e).Tile), Constants.EventNames.TileClicked);
 
         //TODO remove this later
         selectedUnit.Setup(0, 0);
-    }
-
-    private void OnDestroy()
-    {
-        tileHoveredListener.StopListening(Constants.EventNames.TileHovered);
-        tileClickedListener.StopListening(Constants.EventNames.TileClicked);
     }
 
     public void SelectUnit(int unitId)
@@ -49,6 +37,11 @@ public class PlayerController : MonoBehaviour
 
     private void TileClickEvent(Tile tile)
     {
+        if (tile.IsOccupied)
+        {
+            selectedUnitId = tile.StoredId;
+        }
+
         //If the position of this unit on the grid is successfully set, start moving to its new location.
         if (GridController.Instance.SetPositionOfId(selectedUnit.Id, tile.X, tile.Y))
         {

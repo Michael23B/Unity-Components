@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-
-//TODO refactor to not be a singleton and have a setup() function.
 
 public class GridController : MonoBehaviour
 {
@@ -16,9 +13,6 @@ public class GridController : MonoBehaviour
     private Dictionary<int, Vector2Int> idToPositionMap = new Dictionary<int, Vector2Int>();
     private Tile[,] grid;
 
-    private Action<object, EventArgs> tileHoveredListener;
-    private Action<object, EventArgs> tileClickedListener;
-
     private void Awake()
     {
         Instance = this.GetAndEnforceSingleInstance(Instance);
@@ -29,17 +23,8 @@ public class GridController : MonoBehaviour
 
     private void Start()
     {
-        tileHoveredListener = (sender, e) => TileHoverEvent(((TileEventArgs) e).Tile);
-        tileClickedListener = (sender, e) => TileClickEvent(((TileEventArgs) e).Tile);
-
-        tileHoveredListener.StartListening(Constants.EventNames.TileHovered);
-        tileClickedListener.StartListening(Constants.EventNames.TileClicked);
-    }
-
-    private void OnDestroy()
-    {
-        tileHoveredListener.StopListening(Constants.EventNames.TileHovered);
-        tileClickedListener.StopListening(Constants.EventNames.TileClicked);
+        Listener.CreateListener(transform, (sender, e) => TileHoverEvent(((TileEventArgs)e).Tile), Constants.EventNames.TileHovered);
+        Listener.CreateListener(transform, (sender, e) => TileClickEvent(((TileEventArgs)e).Tile), Constants.EventNames.TileClicked);
     }
 
     //Starts tracking a unit on the grid.

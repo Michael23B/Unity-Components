@@ -1,10 +1,5 @@
 ﻿using UnityEngine;
 
-//TODO Refactor MovementController to a singleton
-//MovementController should take any object and move it rather than everyone controlling their own movement
-//Store history of moves in a list so we can undo/redo
-//Track by id the GameObjects that want to be able to move (dictionary of id,GameObject)
-
 public class MovementController : MonoBehaviour
 {
     public float moveSpeed = 2.0f;
