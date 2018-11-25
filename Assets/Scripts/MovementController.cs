@@ -7,7 +7,6 @@ public class MovementController : MonoBehaviour
     private bool isMoving;
     private float dist;
     private Vector3 target;
-    private Transform startPos;
 
     void Update()
     {
@@ -27,15 +26,15 @@ public class MovementController : MonoBehaviour
 
     public void StartMoving(Vector3 target)
     {
-        startPos = transform;
         this.target = target;
         isMoving = true;
     }
 
-    public void UndoMovement()
+    public void SetPositionAndRotation(Transform position)
     {
-        transform.position = startPos.position;
-        transform.rotation = startPos.rotation;
+        transform.position = position.position;
+        transform.rotation = position.rotation;
+        isMoving = false;
     }
 
     public void StopMoving()

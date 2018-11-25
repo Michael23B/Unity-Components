@@ -4,11 +4,7 @@ public class PlayerController : MonoBehaviour
 {
     public static PlayerController Instance { get; private set; }
 
-    private MovementController movement;
-    private int selectedUnitId;
     private Unit selectedUnit;
-    //TODO remove later, find some place to put it
-    public GameObject unitPrefab;
 
     private void Awake()
     {
@@ -19,15 +15,11 @@ public class PlayerController : MonoBehaviour
     {
         Listener.CreateListener(transform, (sender, e) => TileHoverEvent(((TileEventArgs)e).Tile), Constants.EventNames.TileHovered);
         Listener.CreateListener(transform, (sender, e) => TileClickEvent(((TileEventArgs)e).Tile), Constants.EventNames.TileClicked);
-
-        //TODO remove later
-        selectedUnit = Unit.CreateAndRegisterUnit(unitPrefab, 0, 0);
-        Unit.CreateAndRegisterUnit(unitPrefab, 1, 0);
     }
 
     public void SelectUnit(int unitId)
     {
-        selectedUnitId = unitId;
+        selectedUnit = UnitRegistry.Instance.GetUnit(unitId);
     }
 
     #region Events
@@ -42,15 +34,18 @@ public class PlayerController : MonoBehaviour
         //If the tile is occupied, select the unit stored in that tile
         if (tile.IsOccupied)
         {
-            selectedUnitId = tile.StoredId;
-            selectedUnit = UnitRegistry.Instance.GetUnit(selectedUnitId);
+            SelectUnit(tile.StoredId);
             return;
         }
 
-        //If the position of this unit on the grid is successfully set, start moving to its new location.
-        if (GridController.Instance.SetPositionOfId(selectedUnit.Id, tile.X, tile.Y))
+        //If we have a unit, move it
+        if (selectedUnit)
         {
-            selectedUnit.movement.StartMoving(GridController.Instance.GetPositionById(selectedUnit.Id));
+            //If the position of this unit on the grid is successfully set, start moving to its new location.
+            if (GridController.Instance.SetPositionOfId(selectedUnit.Id, tile.X, tile.Y))
+            {
+                selectedUnit.movement.StartMoving(GridController.Instance.GetPositionById(selectedUnit.Id));
+            }
         }
     }
 

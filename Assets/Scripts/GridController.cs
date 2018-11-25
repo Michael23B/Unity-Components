@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GridController : MonoBehaviour
@@ -10,7 +11,7 @@ public class GridController : MonoBehaviour
     [SerializeField] private Vector2 gridMargin = new Vector2(2.5f, -1.875f);
     [SerializeField] private Tile tile = null;
     //Maps an id to an x,y location on the grid.
-    private Dictionary<int, Vector2Int> idToPositionMap = new Dictionary<int, Vector2Int>();
+    private readonly Dictionary<int, Vector2Int> idToPositionMap = new Dictionary<int, Vector2Int>();
     private Tile[,] grid;
 
     private void Awake()
@@ -47,11 +48,7 @@ public class GridController : MonoBehaviour
     //Returns the world position of an id in the idToPositionMap.
     public Vector3 GetPositionById(int id)
     {
-        if (!idToPositionMap.ContainsKey(id))
-        {
-            Debug.LogError($"An id ({id}) that does not exist in the grid was accessed.");
-            return new Vector3(-100, -100, -100);
-        }
+        if (!idToPositionMap.ContainsKey(id)) throw new Exception($"An id ({id}) that does not exist in the grid was accessed.");
 
         Vector2Int currentPos = idToPositionMap[id];
 

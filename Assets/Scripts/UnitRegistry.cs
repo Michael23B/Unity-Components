@@ -12,11 +12,11 @@ public class UnitRegistry : MonoBehaviour
         Instance = this.GetAndEnforceSingleInstance(Instance);
     }
 
-    public bool StartTracking(int id, Unit unit)
+    public bool StartTracking(Unit unit)
     {
-        if (idToUnitMap.ContainsKey(id)) return false;
+        if (idToUnitMap.ContainsKey(unit.Id)) return false;
 
-        idToUnitMap.Add(id, unit);
+        idToUnitMap.Add(unit.Id, unit);
 
         return true;
     }
