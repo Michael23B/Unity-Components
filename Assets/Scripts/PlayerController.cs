@@ -13,8 +13,8 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        Listener.CreateListener(transform, (sender, e) => TileHoverEvent(((TileEventArgs)e).Tile), Constants.EventNames.TileHovered);
-        Listener.CreateListener(transform, (sender, e) => TileClickEvent(((TileEventArgs)e).Tile), Constants.EventNames.TileClicked);
+        Listener.CreateListener(transform, (sender, e) => TileHoverEvent(((TileEventArgs)e).Tile), Constants.EventNames.TILEHOVERED);
+        Listener.CreateListener(transform, (sender, e) => TileClickEvent(((TileEventArgs)e).Tile), Constants.EventNames.TILECLICKED);
     }
 
     public void SelectUnit(int unitId)
@@ -41,11 +41,8 @@ public class PlayerController : MonoBehaviour
         //If we have a unit, move it
         if (selectedUnit)
         {
-            //If the position of this unit on the grid is successfully set, start moving to its new location.
-            if (GridController.Instance.SetPositionOfId(selectedUnit.Id, tile.X, tile.Y))
-            {
-                selectedUnit.movement.StartMoving(GridController.Instance.GetPositionById(selectedUnit.Id));
-            }
+            GridController.Instance.MoveUnit(selectedUnit, tile);
+            return;
         }
     }
 

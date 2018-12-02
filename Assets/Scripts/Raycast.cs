@@ -29,12 +29,11 @@ public class Raycast : MonoBehaviour
         return hit;
     }
 
-
     #region Event triggers
     
     //Event triggers return true if they fired successfully. Add each trigger to the eventTriggers array in the awake function.
 
-    //Fires TileClicked or TileHovered.
+    //Fires TILECLICKED or TILEHOVERED.
     bool CheckHitTile(RaycastHit hit)
     {
         Transform objectHit = hit.transform;
@@ -42,7 +41,7 @@ public class Raycast : MonoBehaviour
 
         if (hoveredTile)
         {
-            string eventName = Input.GetMouseButtonDown(0) ? Constants.EventNames.TileClicked : Constants.EventNames.TileHovered;
+            string eventName = Input.GetMouseButtonDown(0) ? Constants.EventNames.TILECLICKED : Constants.EventNames.TILEHOVERED;
             EventHandler.Invoke(eventName, this, new TileEventArgs(hoveredTile));
             return true;
         }
