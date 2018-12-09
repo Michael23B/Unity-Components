@@ -14,7 +14,7 @@ public class Unit : MonoBehaviour
         movement = GetComponent<MovementController>();
     }
 
-    //Creates a Unit from a prefab, assigns it to the grid and registers its id in the idToUnitMap. Returns the new Unit
+    //Creates a Unit from a prefab, assigns it to the grid and registers its id in the idToUnitMap. Returns the new Unit.
     public static Unit CreateAndRegisterUnit(GameObject prefab, int gridLocationX, int gridLocationY, int id = -1)
     {
         //Create unit and set it up on the GridController
@@ -24,6 +24,7 @@ public class Unit : MonoBehaviour
         return unit;
     }
 
+    //Creates a Unit from a prefab. Returns the new Unit.
     private static Unit CreateUnit(GameObject prefab)
     {
         //Instantiate a copy of the prefab

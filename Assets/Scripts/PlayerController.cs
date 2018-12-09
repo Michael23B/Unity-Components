@@ -13,8 +13,9 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        Listener.CreateListener(transform, (sender, e) => TileHoverEvent(((TileEventArgs)e).Tile), Constants.EventNames.TILEHOVERED);
-        Listener.CreateListener(transform, (sender, e) => TileClickEvent(((TileEventArgs)e).Tile), Constants.EventNames.TILECLICKED);
+        Listener.CreateListener(transform, (sender, e) => TileHoverEvent(((TileEventArgs)e).Tile), Constants.EventName.TILEHOVERED);
+        Listener.CreateListener(transform, (sender, e) => TileClickEvent(((TileEventArgs)e).Tile), Constants.EventName.TILECLICKED);
+        Listener.CreateListener(transform, (sender, e) => TileRightClickEvent(((TileEventArgs)e).Tile), Constants.EventName.TILERIGHTCLICKED);
     }
 
     public void SelectUnit(int unitId)
@@ -42,6 +43,20 @@ public class PlayerController : MonoBehaviour
         if (selectedUnit)
         {
             GridController.Instance.MoveUnit(selectedUnit, tile);
+            return;
+        }
+    }
+
+    private void TileRightClickEvent(Tile tile)
+    {
+        //If we have a unit, move it randomly
+        if (selectedUnit)
+        {
+            UnitAction unitAction = AI.GetAction(selectedUnit);
+            if (unitAction.Name == "Move")
+            {
+                GridController.Instance.MoveUnit(selectedUnit, unitAction.Target);
+            }
             return;
         }
     }

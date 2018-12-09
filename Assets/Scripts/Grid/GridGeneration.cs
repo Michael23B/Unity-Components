@@ -11,7 +11,7 @@ public static class GridGeneration
         {
             for (int y = 0; y < map.GetLength(1); ++y)
             {
-                if (map[x, y] == Constants.TileTypes.NONE) continue;
+                if (map[x, y] == Constants.TileType.NONE) continue;
 
                 Vector3 position = GetTilePosition(x, y, parent.position, margin);
                 grid[x, y] = Object.Instantiate(tile, position, Quaternion.identity);
