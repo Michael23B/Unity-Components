@@ -54,11 +54,9 @@ public class GridController : MonoBehaviour
         //Loop through neighboring tile coordinates and add them to the current coordinates
         for (int i = 0; i < 6; ++i)
         {
-            //TODO not working, figure it out
-            //https://www.redblobgames.com/grids/hexagons/
-            int[,] neighbors = tile.X % 2 == 0 ? Utilities.EvenHexNeighborCoordinates : Utilities.OddHexNeighborCoordinates;
+            int[] neighborCoords = HexHelper.GetHexNeighborCoordinates(tile.Y % 2 == 0, i);
 
-            Tile t = tileGrid.GetTile(tile.X + neighbors[i, 0], tile.Y + neighbors[i, 1]);
+            Tile t = tileGrid.GetTile(tile.X + neighborCoords[0], tile.Y + neighborCoords[1]);
             if (t != null) tiles.Add(t);
         }
 

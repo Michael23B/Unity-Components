@@ -37,8 +37,4 @@ public static class Utilities
 
         return arr;
     }
-
-    public static int[,] EvenHexNeighborCoordinates = {{1, 0}, {0, -1}, {-1, -1}, {-1, 0}, {-1, 1}, {0, 1}};
-
-    public static int[,] OddHexNeighborCoordinates = {{1, 0}, {1, -1}, {0, -1}, {-1, 0}, {0, 1}, {1, 1}};
 }
