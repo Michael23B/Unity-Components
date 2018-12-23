@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+//TODO this can be refactored so we don't have an additional update loop running.
 public class MovementController : MonoBehaviour
 {
     public float moveSpeed = 2.0f;

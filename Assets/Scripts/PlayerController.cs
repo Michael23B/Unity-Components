@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
         Listener.CreateListener(transform, (sender, e) => TileHoverEvent(((TileEventArgs)e).Tile), Constants.EventName.TILEHOVERED);
         Listener.CreateListener(transform, (sender, e) => TileClickEvent(((TileEventArgs)e).Tile), Constants.EventName.TILECLICKED);
         Listener.CreateListener(transform, (sender, e) => TileRightClickEvent(((TileEventArgs)e).Tile), Constants.EventName.TILERIGHTCLICKED);
+        Listener.CreateListener(transform, (sender, e) => UnitDestroyedEvent(((UnitEventArgs)e).Unit), Constants.EventName.UNITDESTROYED);
     }
 
     public void SelectUnit(int unitId)
@@ -23,11 +24,21 @@ public class PlayerController : MonoBehaviour
         selectedUnit = UnitRegistry.Instance.GetUnit(unitId);
     }
 
+    public void DeselectUnit()
+    {
+        selectedUnit = null;
+    }
+
     #region Events
 
     private void TileHoverEvent(Tile tile)
     {
-        if (tile.IsOccupied) Debug.Log(tile.StoredId);
+        //TODO Face the unit in the direction of the tile
+    }
+
+    private void UnitDestroyedEvent(Unit unit)
+    {
+        if (unit.Id == selectedUnit.Id) DeselectUnit();
     }
 
     private void TileClickEvent(Tile tile)
@@ -49,15 +60,11 @@ public class PlayerController : MonoBehaviour
 
     private void TileRightClickEvent(Tile tile)
     {
-        //If we have a unit, move it randomly
-        if (selectedUnit)
+        //If we have a unit and the target tile has a different unit, destroy it
+        if (selectedUnit && tile.IsOccupied && tile.StoredId != selectedUnit.Id)
         {
-            UnitAction unitAction = AI.GetAction(selectedUnit);
-            if (unitAction.Name == "Move")
-            {
-                GridController.Instance.MoveUnit(selectedUnit, unitAction.Target);
-            }
-            return;
+            Unit target = UnitRegistry.Instance.GetUnit(tile.StoredId);
+            Destroy(target.gameObject);
         }
     }
 

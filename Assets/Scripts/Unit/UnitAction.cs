@@ -1,12 +1,12 @@
 ﻿public class UnitAction
 {
     public UnitAction() {}
-    public UnitAction(Tile target, string name)
+    public UnitAction(Tile target, int actionType)
     {
         Target = target;
-        Name = name;
+        ActionType = actionType;
     }
 
     public Tile Target { get; set; }
-    public string Name { get; set; } = "";
+    public int ActionType { get; set; } = -1;
 }

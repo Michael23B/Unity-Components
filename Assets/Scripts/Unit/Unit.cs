@@ -7,11 +7,13 @@ public class Unit : MonoBehaviour
     private bool initialized = false;
 
     public MovementController movement;
+    public UnitStats stats;
 
     private void Awake()
     {
         Id = GetInstanceID();
         movement = GetComponent<MovementController>();
+        stats = new UnitStats(10);
     }
 
     //Creates a Unit from a prefab, assigns it to the grid and registers its id in the idToUnitMap. Returns the new Unit.
@@ -69,6 +71,7 @@ public class Unit : MonoBehaviour
     {
         GridController.Instance.StopTracking(this);
         UnitRegistry.Instance.StopTracking(Id);
+        EventHandler.Invoke(Constants.EventName.UNITDESTROYED, this, new UnitEventArgs(this));
     }
 
     //TODO Temporary UI method, remove later

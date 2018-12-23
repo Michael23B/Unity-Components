@@ -13,10 +13,8 @@ public static class AI
 
         if (tilesToMoveTo.Count == 0) return new UnitAction();
 
-        int randomIndex = rand.Next(0, tilesToMoveTo.Count - 1);
+        int randomIndex = rand.Next(0, tilesToMoveTo.Count);
 
-        string actionName = "Move";
-
-        return new UnitAction(tilesToMoveTo[randomIndex], actionName);
+        return new UnitAction(tilesToMoveTo[randomIndex], Constants.ActionType.MOVE);
     }
 }
