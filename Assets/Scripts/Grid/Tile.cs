@@ -7,6 +7,7 @@ public class Tile : MonoBehaviour
     public int StoredId { get; set; } = -1;
     public bool IsOccupied => StoredId != -1;
     public int TileType { get; private set; } //TODO do things with TileType
+    public int Id;
 
     private bool initialized = false;
     //Offset from the pivot to the top
@@ -21,6 +22,7 @@ public class Tile : MonoBehaviour
         Y = y;
         initialized = true;
         TileType = tileType;
+        Id = GetInstanceID();
 
         return true;
     }

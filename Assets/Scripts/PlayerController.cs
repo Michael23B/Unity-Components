@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour
         Listener.CreateListener(transform, (sender, e) => TileClickEvent(((TileEventArgs)e).Tile), Constants.EventName.TILECLICKED);
         Listener.CreateListener(transform, (sender, e) => TileRightClickEvent(((TileEventArgs)e).Tile), Constants.EventName.TILERIGHTCLICKED);
         Listener.CreateListener(transform, (sender, e) => UnitDestroyedEvent(((UnitEventArgs)e).Unit), Constants.EventName.UNITDESTROYED);
+
+        TileHoveredParticleEffect.Start(); // TODO move this after testing
     }
 
     public void SelectUnit(int unitId)

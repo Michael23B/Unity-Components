@@ -1,6 +1,11 @@
 ﻿using System;
 using UnityEngine;
 
+/*
+ * Fires a raycast every update from the main camera to the mouse.
+ * If an object is hit, the event triggers are called in order until one returns true.
+ * The event triggers will fire an event based on their own logic.
+ */
 public class Raycast : MonoBehaviour
 {
     private Func<RaycastHit, bool>[] eventTriggers;
@@ -29,6 +34,7 @@ public class Raycast : MonoBehaviour
         return hit;
     }
 
+    // TODO Consider making raycast event triggers their own class if they start to pile up
     #region Event triggers
     
     //Event triggers return true if they fired successfully. Add each trigger to the eventTriggers array in the awake function.

@@ -73,10 +73,4 @@ public class Unit : MonoBehaviour
         UnitRegistry.Instance.StopTracking(Id);
         EventHandler.Invoke(Constants.EventName.UNITDESTROYED, this, new UnitEventArgs(this));
     }
-
-    //TODO Temporary UI method, remove later
-    public void CreateAndRegisterUnitInMiddle(GameObject prefab)
-    {
-        CreateAndRegisterUnit(prefab, 2, 2);
-    }
 }
