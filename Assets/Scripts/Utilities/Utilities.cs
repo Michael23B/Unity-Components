@@ -1,8 +1,11 @@
 ﻿using System;
 
+/*
+ * Utility methods that can be used anywhere in the code.
+ */
 public static class Utilities
 {
-    //Checks an instance of this class doesn't already exist and returns the object it was called on
+    // Checks an instance of this class doesn't already exist and returns the object it was called on
     public static T GetAndEnforceSingleInstance<T>(this T me, T instance)
     {
         if (instance != null && !instance.Equals(me))
@@ -13,7 +16,7 @@ public static class Utilities
         return me;
     }
 
-    //Initializes every element of an array to the provided value
+    // Initializes every element of an array to the provided value
     public static T[] InitializeArray<T>(this T[] arr, T value)
     {
         for (int i = 0; i < arr.Length; ++i)
@@ -24,7 +27,7 @@ public static class Utilities
         return arr;
     }
 
-    //Initializes every element of a 2D array to the provided value
+    // Initializes every element of a 2D array to the provided value
     public static T[,] Initialize2DArray<T>(this T[,] arr, T value)
     {
         for (int i = 0; i < arr.GetLength(0); ++i)

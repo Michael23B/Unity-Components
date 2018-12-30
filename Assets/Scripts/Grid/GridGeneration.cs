@@ -1,8 +1,12 @@
 ﻿using UnityEngine;
 
+/*
+ * The logic of generating a grid.
+ * Handles the location and creation of tiles, assigning their gameObjects to the parent and calling the Setup() function.
+ */
 public static class GridGeneration
 {
-    //Instantiates a number of Tiles in a grid formation. Expects hex shaped tiles.
+    // Instantiates a number of Tiles in a grid formation. Expects hex shaped tiles.
     public static Tile[,] GenerateTileGrid(Tile tile, int[,] map, Vector2 margin, Transform parent)
     {
         Tile[,] grid = new Tile[map.GetLength(0), map.GetLength(1)];
@@ -23,10 +27,10 @@ public static class GridGeneration
         return grid;
     }
 
-    //Calculates a tiles world position based on starting position, margin and the current coordinates.
+    // Calculates a tiles world position based on starting position, margin and the current coordinates.
     private static Vector3 GetTilePosition(int x, int y, Vector3 startPosition, Vector2 margin)
     {
-        //Do some math to figure out where a tile should go based on parameters
+        // Do some math to figure out where a tile should go based on parameters
         float xOffset = x * (Mathf.Sqrt(3) / 2 * margin.x);
         float yOffset = y * margin.y;
 
@@ -35,7 +39,7 @@ public static class GridGeneration
         float tilePosX = startPosition.x + xOffset;
         float tilePosY = startPosition.z + yOffset;
 
-        //Since we are working with a 2d grid, swap the Y and Z co-ordinates
+        // Since we are working with a 2d grid, swap the Y and Z co-ordinates
         return new Vector3(tilePosX, startPosition.y, tilePosY);
     }
 }

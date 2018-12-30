@@ -1,5 +1,9 @@
 ﻿using System;
 
+/*
+ * Concrete types of the arguments to be passed from events.
+ */
+
 public class TileEventArgs : EventArgs
 {
     public TileEventArgs(Tile tile)

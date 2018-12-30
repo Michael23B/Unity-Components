@@ -1,5 +1,9 @@
 ﻿using UnityEngine;
 
+/*
+ * Selects Units when a tile that has an id is clicked.
+ * Listens for events and manipulates the selected Unit.
+ */
 public class PlayerController : MonoBehaviour
 {
     public static PlayerController Instance { get; private set; }
@@ -17,8 +21,6 @@ public class PlayerController : MonoBehaviour
         Listener.CreateListener(transform, (sender, e) => TileClickEvent(((TileEventArgs)e).Tile), Constants.EventName.TILECLICKED);
         Listener.CreateListener(transform, (sender, e) => TileRightClickEvent(((TileEventArgs)e).Tile), Constants.EventName.TILERIGHTCLICKED);
         Listener.CreateListener(transform, (sender, e) => UnitDestroyedEvent(((UnitEventArgs)e).Unit), Constants.EventName.UNITDESTROYED);
-
-        TileHoveredParticleEffect.Start(); // TODO move this after testing
     }
 
     public void SelectUnit(int unitId)
@@ -35,7 +37,7 @@ public class PlayerController : MonoBehaviour
 
     private void TileHoverEvent(Tile tile)
     {
-        //TODO Face the unit in the direction of the tile
+        // TODO Face the unit in the direction of the tile
     }
 
     private void UnitDestroyedEvent(Unit unit)
@@ -45,14 +47,14 @@ public class PlayerController : MonoBehaviour
 
     private void TileClickEvent(Tile tile)
     {
-        //If the tile is occupied, select the unit stored in that tile
+        // If the tile is occupied, select the unit stored in that tile
         if (tile.IsOccupied)
         {
             SelectUnit(tile.StoredId);
             return;
         }
 
-        //If we have a unit, move it
+        // If we have a unit, move it
         if (selectedUnit)
         {
             GridController.Instance.MoveUnit(selectedUnit, tile);
@@ -62,7 +64,7 @@ public class PlayerController : MonoBehaviour
 
     private void TileRightClickEvent(Tile tile)
     {
-        //If we have a unit and the target tile has a different unit, destroy it
+        // If we have a unit and the target tile has a different unit, destroy it
         if (selectedUnit && tile.IsOccupied && tile.StoredId != selectedUnit.Id)
         {
             Unit target = UnitRegistry.Instance.GetUnit(tile.StoredId);

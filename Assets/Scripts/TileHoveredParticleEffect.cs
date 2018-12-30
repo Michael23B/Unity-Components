@@ -2,6 +2,10 @@
 using UnityEngine;
 using Object = UnityEngine.Object;
 
+/*
+ * When the TileHovered event is fired, moves a particle effect to that tile.
+ * Can be activated and deactivated using Start() and Stop().
+ */
 public static class TileHoveredParticleEffect
 {
     private static readonly Action<object, EventArgs> eventListener = (sender, e) => TileHoverEvent(((TileEventArgs)e).Tile);

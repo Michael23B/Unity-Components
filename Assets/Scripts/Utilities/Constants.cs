@@ -1,6 +1,9 @@
-﻿public static class Constants
+﻿/*
+ * Stores constants.
+ */
+public static class Constants
 {
-    //TODO consider refactoring these into enums
+    // TODO consider refactoring these into enums
     public struct EventName
     {
         public const string TILEHOVERED = "TileHovered";

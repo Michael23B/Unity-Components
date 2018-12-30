@@ -1,4 +1,7 @@
-﻿public class UnitStats
+﻿/*
+ * Stores data to be used by the Unit class.
+ */
+public class UnitStats
 {
     private int maxHealth;
     private int health;

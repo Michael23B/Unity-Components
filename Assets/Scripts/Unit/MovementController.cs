@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
 
-//TODO this can be refactored so we don't have an additional update loop running.
+// TODO this can be refactored so we don't have an additional update loop running.
+
+/**
+ * Provides helper functions to move an attached gameObject.
+ */
 public class MovementController : MonoBehaviour
 {
     public float moveSpeed = 2.0f;
