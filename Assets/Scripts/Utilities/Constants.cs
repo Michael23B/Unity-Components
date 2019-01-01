@@ -11,6 +11,11 @@ public static class Constants
         public const string TILERIGHTCLICKED = "TileRightClicked";
 
         public const string UNITDESTROYED = "UnitDestroyed";
+
+        public const string UNITTURNSTARTED = "UnitTurnStarted";
+        public const string UNITTURNENDED = "UnitTurnEnded";
+        public const string ROUNDSTARTED = "RoundStarted";
+        public const string ROUNDENDED = "RoundEnded";
     }
 
     public struct TileType

@@ -2,7 +2,7 @@
 using UnityEngine;
 
 /*
- * Hides the implementation of TileGrid and provides helpful methods for interfacing with it.
+ * Hides the implementation of TileGrid and provides methods for interfacing with it.
  */
 public class GridController : MonoBehaviour
 {

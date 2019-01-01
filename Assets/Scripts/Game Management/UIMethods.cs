@@ -3,6 +3,8 @@
 /*
  * A wrapper for the UI to call methods from other classes.
  * Mostly because UI method calls have limitations like not being able to call static methods and only taking 0 or 1 parameter.
+ *
+ * TODO Eventually these methods will need to be separated into their own classes.
  */
 public class UIMethods : MonoBehaviour
 {

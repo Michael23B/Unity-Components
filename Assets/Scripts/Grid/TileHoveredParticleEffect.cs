@@ -13,18 +13,28 @@ public static class TileHoveredParticleEffect
     private static GameObject particleEffect;
     private static ParticleSystem particleSystem;
     private static int currentTileId = -1;
+    private static bool active = false;
 
     public static void Start()
     {
-        eventListener.Subscribe(Constants.EventName.TILEHOVERED);
+        if (!active)
+        {
+            eventListener.Subscribe(Constants.EventName.TILEHOVERED);
+            active = true;
+        }
     }
 
     public static void Stop()
     {
-        if (particleEffect) Object.Destroy(particleEffect);
-        currentTileId = -1;
+        if (active)
+        {
+            if (particleEffect) Object.Destroy(particleEffect);
+            currentTileId = -1;
 
-        eventListener.Unsubscribe(Constants.EventName.TILEHOVERED);
+            eventListener.Unsubscribe(Constants.EventName.TILEHOVERED);
+
+            active = false;
+        }
     }
 
     private static void TileHoverEvent(Tile tile)
@@ -33,6 +43,7 @@ public static class TileHoveredParticleEffect
 
         currentTileId = tile.Id;
 
+        // If we don't have a particle effect (the gameObject), create it and get the particle system
         if (!particleEffect)
         {
             particleEffect = Object.Instantiate(particleEffectPrefab, tile.GetPositionWithOffset(), Quaternion.identity);
