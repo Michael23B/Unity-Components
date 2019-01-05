@@ -22,4 +22,9 @@ public class UIMethods : MonoBehaviour
     {
         TileHoveredParticleEffect.Stop();
     }
+
+    public void EndCurrentTurn()
+    {
+        GameComponents.TurnHandler.EndTurn();
+    }
 }

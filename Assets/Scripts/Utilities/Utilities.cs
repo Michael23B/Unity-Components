@@ -1,4 +1,6 @@
 ﻿using System;
+using UnityEngine;
+using UnityEngine.UI;
 
 /*
  * Utility methods that can be used anywhere in the code.
@@ -39,5 +41,37 @@ public static class Utilities
         }
 
         return arr;
+    }
+
+    /*
+     * Unity methods
+     */
+
+    // Creates a text component attached to the provided canvas
+    public static GameObject CreateText(Transform canvas, float x, float y, string text, int fontSize, Color color)
+    {
+        GameObject go = new GameObject($"__text ({text})");
+        go.transform.SetParent(canvas);
+
+        RectTransform rectTransform = go.AddComponent<RectTransform>();
+        rectTransform.anchoredPosition = new Vector2(x, y);
+
+        Text textComponent = go.AddComponent<Text>();
+        textComponent.text = text;
+        textComponent.fontSize = fontSize;
+        textComponent.color = color;
+        textComponent.font = Font.CreateDynamicFontFromOSFont("Arial", 10); // TODO just use default font
+
+        return go;
+    }
+
+    // Set the text component of a GameObject or it's children
+    public static void SetText(this GameObject gameObject, string text)
+    {
+        Text textComponent = gameObject.GetComponent<Text>();
+
+        if (!textComponent) textComponent = gameObject.GetComponentInChildren<Text>();
+
+        if (textComponent) textComponent.text = text;
     }
 }

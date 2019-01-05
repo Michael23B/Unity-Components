@@ -66,6 +66,7 @@ public class Unit : MonoBehaviour
         }
 
         transform.position = GridController.Instance.GetPosition(this);
+        GameComponents.TurnHandler.AddUnitToGame(this);
         isInitialized = true;
 
         return true;

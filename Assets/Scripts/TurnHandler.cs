@@ -5,23 +5,25 @@ using UnityEngine;
  */
 public class TurnHandler : MonoBehaviour
 {
-    private readonly List<Unit> units = new List<Unit>();
+    private readonly List<Unit> unitsInRound = new List<Unit>();
     private int currentTurnIndex = -1;
+    private int totalTurns = 0;
 
     public void StartGame()
     {
         currentTurnIndex = -1;
-        NextRound();
+        totalTurns = 0;
     }
 
     void NextTurn()
     {
-        if (units.Count == 0) return;
+        if (unitsInRound.Count == 0) return;
         currentTurnIndex++;
+        totalTurns++;
 
-        if (currentTurnIndex >= units.Count) NextRound();
+        if (currentTurnIndex >= unitsInRound.Count) NextRound();
 
-        EventHandler.Invoke(Constants.EventName.UNITTURNSTARTED, new UnitEventArgs(units[currentTurnIndex]));
+        EventHandler.Invoke(Constants.EventName.UNITTURNSTARTED, this, new TurnEventArgs(unitsInRound[currentTurnIndex], currentTurnIndex, unitsInRound.Count, totalTurns));
     }
 
     void NextRound()
@@ -37,22 +39,25 @@ public class TurnHandler : MonoBehaviour
 
     public void EndTurn()
     {
-        EventHandler.Invoke(Constants.EventName.UNITTURNENDED, new UnitEventArgs(units[currentTurnIndex]));
+        if (unitsInRound.Count == 0) return;
+
+        if (currentTurnIndex != -1) EventHandler.Invoke(Constants.EventName.UNITTURNENDED, new TurnEventArgs(unitsInRound[currentTurnIndex], currentTurnIndex, unitsInRound.Count, totalTurns));
+
         NextTurn();
     }
 
     public void AddUnitToGame(Unit unit)
     {
-        units.Add(unit);
+        unitsInRound.Add(unit);
     }
 
     public Unit CurrentUnit()
     {
-        return units[currentTurnIndex];
+        return unitsInRound[currentTurnIndex];
     }
 
     public IReadOnlyCollection<Unit> GetTurnOrder()
     {
-        return units.AsReadOnly();
+        return unitsInRound.AsReadOnly();
     }
 }

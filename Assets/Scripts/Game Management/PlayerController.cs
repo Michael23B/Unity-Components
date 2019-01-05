@@ -43,7 +43,7 @@ public class PlayerController : MonoBehaviour
 
     private void UnitDestroyedEvent(Unit unit)
     {
-        if (unit.Id == selectedUnit.Id) DeselectUnit();
+        if (unit.Id == selectedUnit?.Id) DeselectUnit();
     }
 
     private void TileClickEvent(Tile tile)

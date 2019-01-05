@@ -21,3 +21,18 @@ public class UnitEventArgs : EventArgs
     }
     public Unit Unit { get; }
 }
+
+public class TurnEventArgs : EventArgs
+{
+    public TurnEventArgs(Unit currentUnit, int turn, int roundLength, int turnsTaken)
+    {
+        CurrentUnit = currentUnit;
+        Turn = turn;
+        RoundLength = roundLength;
+        TurnsTaken = turnsTaken;
+    }
+    public Unit CurrentUnit { get; }
+    public int Turn { get; }
+    public int RoundLength { get; }
+    public int TurnsTaken { get; }
+}
