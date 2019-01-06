@@ -9,6 +9,11 @@ public class TurnHandler : MonoBehaviour
     private int currentTurnIndex = -1;
     private int totalTurns = 0;
 
+    private void Awake()
+    {
+        Listener.CreateListener(transform, (sender, e) => UnitDestroyedEvent(((UnitEventArgs)e).Unit), Constants.EventName.UNITDESTROYED);
+    }
+
     public void StartGame()
     {
         currentTurnIndex = -1;
@@ -41,14 +46,31 @@ public class TurnHandler : MonoBehaviour
     {
         if (unitsInRound.Count == 0) return;
 
-        if (currentTurnIndex != -1) EventHandler.Invoke(Constants.EventName.UNITTURNENDED, new TurnEventArgs(unitsInRound[currentTurnIndex], currentTurnIndex, unitsInRound.Count, totalTurns));
+        if (currentTurnIndex != -1)
+        {
+            if (currentTurnIndex >= unitsInRound.Count) currentTurnIndex = unitsInRound.Count - 1;
+
+            EventHandler.Invoke(Constants.EventName.UNITTURNENDED, new TurnEventArgs(unitsInRound[currentTurnIndex], currentTurnIndex, unitsInRound.Count, totalTurns));
+        }
 
         NextTurn();
     }
 
-    public void AddUnitToGame(Unit unit)
+    public void AddUnitToTurnOrder(Unit unit)
     {
         unitsInRound.Add(unit);
+    }
+
+    public void RemoveUnitFromTurnOrder(Unit unit)
+    {
+        int unitIndex = unitsInRound.FindIndex(el => el.Id == unit.Id);
+
+        if (unitIndex == -1) return;
+
+        // If the unit we are removing has already taken a turn, the list will shift down so we need to decrease the current index.
+        if (unitIndex < currentTurnIndex) currentTurnIndex--;
+
+        unitsInRound.Remove(unit);
     }
 
     public Unit CurrentUnit()
@@ -60,4 +82,13 @@ public class TurnHandler : MonoBehaviour
     {
         return unitsInRound.AsReadOnly();
     }
+
+    #region Events
+
+    private void UnitDestroyedEvent(Unit unit)
+    {
+        RemoveUnitFromTurnOrder(unit);
+    }
+
+    #endregion
 }

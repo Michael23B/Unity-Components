@@ -7,13 +7,11 @@ using UnityEngine;
  */
 public class UnitRegistry : MonoBehaviour
 {
-    public static UnitRegistry Instance { get; private set; }
-
     private readonly Dictionary<int, Unit> idToUnitMap = new Dictionary<int, Unit>();
 
     private void Awake()
     {
-        Instance = this.GetAndEnforceSingleInstance(Instance);
+        Listener.CreateListener(transform, (sender, e) => UnitDestroyedEvent(((UnitEventArgs)e).Unit), Constants.EventName.UNITDESTROYED);
     }
 
     public bool StartTracking(Unit unit)
@@ -40,4 +38,13 @@ public class UnitRegistry : MonoBehaviour
 
         return null;
     }
+
+    #region Events
+
+    private void UnitDestroyedEvent(Unit unit)
+    {
+        StopTracking(unit.Id);
+    }
+
+    #endregion
 }

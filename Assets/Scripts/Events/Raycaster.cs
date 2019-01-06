@@ -6,7 +6,7 @@ using UnityEngine;
  * If an object is hit, the event triggers are called in order until one returns true.
  * The event triggers will fire an event based on their own logic.
  */
-public class Raycast : MonoBehaviour
+public class Raycaster : MonoBehaviour
 {
     private Func<RaycastHit, bool>[] eventTriggers;
 

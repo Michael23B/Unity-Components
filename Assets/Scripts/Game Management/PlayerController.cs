@@ -6,14 +6,7 @@
  */
 public class PlayerController : MonoBehaviour
 {
-    public static PlayerController Instance { get; private set; }
-
     private Unit selectedUnit;
-
-    private void Awake()
-    {
-        Instance = this.GetAndEnforceSingleInstance(Instance);
-    }
 
     private void Start()
     {
@@ -21,12 +14,11 @@ public class PlayerController : MonoBehaviour
         Listener.CreateListener(transform, (sender, e) => TileClickEvent(((TileEventArgs)e).Tile), Constants.EventName.TILECLICKED);
         Listener.CreateListener(transform, (sender, e) => TileRightClickEvent(((TileEventArgs)e).Tile), Constants.EventName.TILERIGHTCLICKED);
         Listener.CreateListener(transform, (sender, e) => UnitDestroyedEvent(((UnitEventArgs)e).Unit), Constants.EventName.UNITDESTROYED);
-        GameComponents.TurnHandler.StartGame();
     }
 
     public void SelectUnit(int unitId)
     {
-        selectedUnit = UnitRegistry.Instance.GetUnit(unitId);
+        selectedUnit = GameComponents.UnitRegistry.GetUnit(unitId);
     }
 
     public void DeselectUnit()
@@ -58,7 +50,7 @@ public class PlayerController : MonoBehaviour
         // If we have a unit, move it
         if (selectedUnit)
         {
-            GridController.Instance.MoveUnit(selectedUnit, tile);
+            GameComponents.GridController.MoveUnit(selectedUnit, tile);
             return;
         }
     }
@@ -68,7 +60,7 @@ public class PlayerController : MonoBehaviour
         // If we have a unit and the target tile has a different unit, destroy it
         if (selectedUnit && tile.IsOccupied && tile.StoredId != selectedUnit.Id)
         {
-            Unit target = UnitRegistry.Instance.GetUnit(tile.StoredId);
+            Unit target = GameComponents.UnitRegistry.GetUnit(tile.StoredId);
             Destroy(target.gameObject);
         }
     }

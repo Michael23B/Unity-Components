@@ -55,18 +55,18 @@ public class Unit : MonoBehaviour
         if (id != -1) Id = id;
 
         // Registers this Unit in the GridController and UnitRegistry
-        if (!GridController.Instance.StartTracking(this, x, y) || !UnitRegistry.Instance.StartTracking(this))
+        if (!GameComponents.GridController.StartTracking(this, x, y) || !GameComponents.UnitRegistry.StartTracking(this))
         {
             // If we failed to register with either, clean up and throw
-            GridController.Instance.StopTracking(this);
-            UnitRegistry.Instance.StopTracking(Id);
+            GameComponents.GridController.StopTracking(this);
+            GameComponents.UnitRegistry.StopTracking(Id);
             Destroy(gameObject);
 
             throw new Exception($"A unit with the id {Id}({GetInstanceID()}) failed to spawn.");
         }
 
-        transform.position = GridController.Instance.GetPosition(this);
-        GameComponents.TurnHandler.AddUnitToGame(this);
+        transform.position = GameComponents.GridController.GetPosition(this);
+        GameComponents.TurnHandler.AddUnitToTurnOrder(this);
         isInitialized = true;
 
         return true;
@@ -74,8 +74,6 @@ public class Unit : MonoBehaviour
 
     private void OnDestroy()
     {
-        GridController.Instance.StopTracking(this);
-        UnitRegistry.Instance.StopTracking(Id);
         EventHandler.Invoke(Constants.EventName.UNITDESTROYED, this, new UnitEventArgs(this));
     }
 }

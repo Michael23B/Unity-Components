@@ -10,6 +10,9 @@ public class PrefabLoader : MonoBehaviour
 
     [Header("Game Manager Components")]
     [SerializeField] private GameObject turnHandlerPrefab = null;
+    [SerializeField] private GameObject unitRegistryPrefab = null;
+    [SerializeField] private GameObject playerControllerPrefab = null;
+    [SerializeField] private GameObject gridControllerPrefab = null;
 
     private void Awake()
     {
@@ -23,5 +26,29 @@ public class PrefabLoader : MonoBehaviour
         go.transform.parent = transform;
 
         return go.GetComponent<TurnHandler>();
+    }
+
+    public UnitRegistry CreateUnitRegistry()
+    {
+        GameObject go = Instantiate(unitRegistryPrefab);
+        go.transform.parent = transform;
+
+        return go.GetComponent<UnitRegistry>();
+    }
+
+    public PlayerController CreatePlayerController()
+    {
+        GameObject go = Instantiate(playerControllerPrefab);
+        go.transform.parent = transform;
+
+        return go.GetComponent<PlayerController>();
+    }
+
+    public GridController CreateGridController()
+    {
+        GameObject go = Instantiate(gridControllerPrefab);
+        go.transform.parent = transform;
+
+        return go.GetComponent<GridController>();
     }
 }

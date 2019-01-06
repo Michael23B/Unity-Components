@@ -6,8 +6,6 @@ using UnityEngine;
  */
 public class GridController : MonoBehaviour
 {
-    public static GridController Instance { get; private set; }
-    
     // Values for grid generation
     [SerializeField] private TileGrid tileGrid;
     [SerializeField] private int rows = 5;
@@ -17,9 +15,10 @@ public class GridController : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this.GetAndEnforceSingleInstance(Instance);
         // Instantiates a grid with all land tiles
         tileGrid = new TileGrid(tilePrefab, new int[rows, columns].Initialize2DArray(1), gridMargin, transform);
+
+        Listener.CreateListener(transform, (sender, e) => UnitDestroyedEvent(((UnitEventArgs)e).Unit), Constants.EventName.UNITDESTROYED);
     }
 
     public bool StartTracking(Unit unit, int startPositionX, int startPositionY)
@@ -76,4 +75,13 @@ public class GridController : MonoBehaviour
 
         return false;
     }
+
+    #region Events
+
+    private void UnitDestroyedEvent(Unit unit)
+    {
+        tileGrid.StopTracking(unit.Id);
+    }
+
+    #endregion
 }

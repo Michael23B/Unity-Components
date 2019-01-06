@@ -12,7 +12,7 @@ public static class AI
     public static UnitAction GetAction(Unit unit)
     {
         // Get the surrounding tiles and move to a random one.
-        List<Tile> tilesToMoveTo = GridController.Instance.GetSurroundingTiles(unit);
+        List<Tile> tilesToMoveTo = GameComponents.GridController.GetSurroundingTiles(unit);
 
         if (tilesToMoveTo.Count == 0) return new UnitAction();
 
