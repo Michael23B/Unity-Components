@@ -3,6 +3,13 @@
  */
 public static class GameComponents
 {
+    private static TurnHandler turnHandler;
+    private static UnitRegistry unitRegistry;
+    private static PlayerController playerController;
+    private static GridController gridController;
+    private static LifecycleEvents lifecycleEvents;
+    private static GameState gameState = null;
+
     public static TurnHandler TurnHandler
     {
         get
@@ -15,8 +22,6 @@ public static class GameComponents
             return turnHandler;
         }
     }
-
-    private static TurnHandler turnHandler;
 
     public static UnitRegistry UnitRegistry
     {
@@ -31,8 +36,6 @@ public static class GameComponents
         }
     }
 
-    private static UnitRegistry unitRegistry;
-
     public static PlayerController PlayerController
     {
         get
@@ -45,8 +48,6 @@ public static class GameComponents
             return playerController;
         }
     }
-
-    private static PlayerController playerController;
 
     public static GridController GridController
     {
@@ -61,5 +62,30 @@ public static class GameComponents
         }
     }
 
-    private static GridController gridController;
+    public static LifecycleEvents LifecycleEvents
+    {
+        get
+        {
+            if (!lifecycleEvents)
+            {
+                lifecycleEvents = PrefabLoader.Instance.CreateLifecycleEvents();
+            }
+
+            return lifecycleEvents;
+        }
+    }
+
+    public static GameState GameState
+    {
+        get
+        {
+            if (gameState == null)
+            {
+                gameState = new GameState();
+                gameState.Initialize();
+            }
+
+            return gameState;
+        }
+    }
 }

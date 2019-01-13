@@ -16,6 +16,8 @@ public static class Constants
         public const string UNITTURNENDED = "UnitTurnEnded";
         public const string ROUNDSTARTED = "RoundStarted";
         public const string ROUNDENDED = "RoundEnded";
+
+        public const string APPLICATIONQUITTING = "ApplicationQuitting";
     }
 
     public struct TileType

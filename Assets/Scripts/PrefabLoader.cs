@@ -13,6 +13,7 @@ public class PrefabLoader : MonoBehaviour
     [SerializeField] private GameObject unitRegistryPrefab = null;
     [SerializeField] private GameObject playerControllerPrefab = null;
     [SerializeField] private GameObject gridControllerPrefab = null;
+    [SerializeField] private GameObject lifecycleEventsPrefab = null;
 
     private void Awake()
     {
@@ -50,5 +51,13 @@ public class PrefabLoader : MonoBehaviour
         go.transform.parent = transform;
 
         return go.GetComponent<GridController>();
+    }
+
+    public LifecycleEvents CreateLifecycleEvents()
+    {
+        GameObject go = Instantiate(lifecycleEventsPrefab);
+        go.transform.parent = transform;
+
+        return go.GetComponent<LifecycleEvents>();
     }
 }

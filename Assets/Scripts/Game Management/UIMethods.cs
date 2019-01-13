@@ -10,7 +10,7 @@ public class UIMethods : MonoBehaviour
 {
     public void CreateAndRegisterUnitInMiddle(GameObject prefab)
     {
-        Unit.CreateAndSetupUnit(prefab, 2, 2);
+        UnitCreation.CreateAndSetupUnit(prefab, 2, 2);
     }
 
     public void StartTileHoverEventParticleEffects()
