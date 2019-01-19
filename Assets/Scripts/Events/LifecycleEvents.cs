@@ -10,8 +10,11 @@ public class LifecycleEvents : MonoBehaviour
         DontDestroyOnLoad(this);
     }
 
+    // TODO depending on the order of execution, the event handler might be destroyed before this happens
     private void OnApplicationQuit()
     {
         EventHandler.Invoke(Constants.EventName.APPLICATIONQUITTING);
     }
+
+    // TODO add lifecycle events as needed here
 }

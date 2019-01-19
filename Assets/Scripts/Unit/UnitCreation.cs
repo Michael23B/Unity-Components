@@ -3,7 +3,7 @@ using UnityEngine;
 using Object = UnityEngine.Object;
 
 /*
- * Seperates the Unit class from it's creation and set up. Registers the unit in other places it's needed.
+ * Separates the Unit class from it's creation and set up. Registers the unit in other places it's needed.
  */
 public static class UnitCreation
 {

@@ -19,7 +19,6 @@ public class Raycaster : MonoBehaviour
     void Update()
     {
         RaycastHit hit = GetRaycastHit();
-        Debug.Log(GameComponents.GameState.IsApplicationQuitting);
 
         // Loop through eventTriggers until one is successful
         foreach (var eventTrigger in eventTriggers)

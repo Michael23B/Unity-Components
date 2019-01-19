@@ -7,8 +7,7 @@ public class GameState
 {
     public void Initialize()
     {
-        eventListener = (sender, e) => IsApplicationQuitting = true;
-        eventListener.Subscribe(Constants.EventName.APPLICATIONQUITTING);
+        EventHandler.Subscribe((sender, e) => IsApplicationQuitting = true, Constants.EventName.APPLICATIONQUITTING);
     }
 
     private Action<object, EventArgs> eventListener;

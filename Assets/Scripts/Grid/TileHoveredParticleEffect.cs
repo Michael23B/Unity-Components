@@ -9,7 +9,7 @@ using Object = UnityEngine.Object;
 public static class TileHoveredParticleEffect
 {
     private static readonly Action<object, EventArgs> eventListener = (sender, e) => TileHoverEvent(((TileEventArgs)e).Tile);
-    private static readonly GameObject particleEffectPrefab = ResourceManager.GetResource(1);
+    private static readonly GameObject particleEffectPrefab = ResourceManager.GetResource(2);
     private static GameObject particleEffect;
     private static ParticleSystem particleSystem;
     private static int currentTileId = -1;

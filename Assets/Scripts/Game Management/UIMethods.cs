@@ -23,6 +23,17 @@ public class UIMethods : MonoBehaviour
         TileHoveredParticleEffect.Stop();
     }
 
+    public void StartUnitActiveParticleEffect()
+    {
+        UnitActiveParticleEffect.Start();
+    }
+
+    public void StopUnitActiveParticleEffect()
+    {
+        UnitActiveParticleEffect.Stop();
+    }
+
+
     public void EndCurrentTurn()
     {
         GameComponents.TurnHandler.EndTurn();
