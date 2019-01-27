@@ -70,7 +70,7 @@ public class GridController : MonoBehaviour
         // If we successfully set our position on the grid, start moving the Unit
         if (tileGrid.SetGridLocation(unit.Id, tile.X, tile.Y))
         {
-            unit.movement.StartMoving(tile.GetPositionWithOffset());
+            unit.Movement.StartMoving(tile.GetPositionWithOffset());
         }
 
         return false;

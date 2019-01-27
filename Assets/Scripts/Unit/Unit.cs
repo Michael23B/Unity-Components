@@ -4,18 +4,19 @@
  * Stores data and unit-related classes for other classes to access.
  * Units are created using the static class UnitCreation.
  */
+[RequireComponent(typeof(MovementController))]
 public class Unit : MonoBehaviour
 {
     public int Id { get; private set; }
-
-    public MovementController movement;
-    public UnitStats stats;
+    public MovementController Movement { get; private set; }
+    public UnitStats Stats { get; private set; }
+    [SerializeField] public Constants.UnitPrefabType UnitPrefabType; // Used to identify resource (ResouceManager)
 
     private void Awake()
     {
         Id = GetInstanceID();
-        movement = GetComponent<MovementController>();
-        stats = new UnitStats(10);
+        Movement = GetComponent<MovementController>();
+        Stats = new UnitStats(10);
     }
 
     public void OverrideId(int id)

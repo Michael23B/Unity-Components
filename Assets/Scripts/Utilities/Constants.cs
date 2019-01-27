@@ -31,4 +31,15 @@ public static class Constants
         public const int MOVE = 0;
         public const int ATTACK = 1;
     }
+
+    public enum ParticleEffectType
+    {
+        TileHovered,
+        ActiveUnit
+    }
+
+    public enum UnitPrefabType
+    {
+        Dude
+    }
 }

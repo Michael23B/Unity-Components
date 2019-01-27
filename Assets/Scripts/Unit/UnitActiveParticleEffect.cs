@@ -2,10 +2,12 @@
 using UnityEngine;
 using Object = UnityEngine.Object;
 
+// TODO could create a base class for this and tilehovered particle effect.
+// The start and stop method likely wouldnt change and the eventListener could be abstract.
 public class UnitActiveParticleEffect
 {
     private static readonly Action<object, EventArgs> eventListener = (sender, e) => UnitTurnStartedEvent(((TurnEventArgs)e).CurrentUnit);
-    private static readonly GameObject particleEffectPrefab = ResourceManager.GetResource(0);
+    private static readonly GameObject particleEffectPrefab = ResourceManager.GetParticleEffect(Constants.ParticleEffectType.ActiveUnit);
     private static GameObject particleEffect;
     private static ParticleSystem particleSystem;
     private static bool active = false;
