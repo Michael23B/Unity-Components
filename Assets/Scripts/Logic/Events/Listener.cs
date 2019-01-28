@@ -7,6 +7,8 @@ using UnityEngine;
  *
  * Unsubscription happens when the GameObject is disabled or destroyed. If enabled, it will automatically subscribe again.
  * When the parent gameObject is disabled/enabled/destroyed, this object will be affected as well.
+ *
+ * Create using the ListenerCreation helper class
  */
 public class Listener : MonoBehaviour
 {
@@ -34,24 +36,5 @@ public class Listener : MonoBehaviour
     private void OnEnable()
     {
         eventListener?.Subscribe(currentEventName);
-    }
-
-    // Creates an object that allows you to subscribe to an event. This subscription automatically handled when parent is enabled/disabled/destroyed.
-    public static Listener CreateListener(Transform parent)
-    {
-        GameObject go = new GameObject("__eventListener", typeof(Listener));
-        go.transform.parent = parent;
-
-        return go.GetComponent<Listener>();
-    }
-
-    // Creates an object subscribed to an event. This subscription automatically handled when parent is enabled/disabled/destroyed.
-    public static Listener CreateListener(Transform parent, Action<object, EventArgs> action, string eventName)
-    {
-        Listener listener = CreateListener(parent);
-
-        listener.StartListening(action, eventName);
-
-        return listener;
     }
 }

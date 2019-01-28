@@ -10,18 +10,18 @@ public class UnitControlEvents : MonoBehaviour
 
     private void Start()
     {
-        Listener.CreateListener(transform, (sender, e) => TileHoverEvent(((TileEventArgs)e).Tile), Constants.EventName.TILEHOVERED);
-        Listener.CreateListener(transform, (sender, e) => TileClickEvent(((TileEventArgs)e).Tile), Constants.EventName.TILECLICKED);
-        Listener.CreateListener(transform, (sender, e) => TileRightClickEvent(((TileEventArgs)e).Tile), Constants.EventName.TILERIGHTCLICKED);
-        Listener.CreateListener(transform, (sender, e) => UnitDestroyedEvent(((UnitEventArgs)e).Unit), Constants.EventName.UNITDESTROYED);
+        ListenerCreation.CreateListener(transform, (sender, e) => TileHoverEvent(((TileEventArgs)e).Tile), Constants.EventName.TILEHOVERED);
+        ListenerCreation.CreateListener(transform, (sender, e) => TileClickEvent(((TileEventArgs)e).Tile), Constants.EventName.TILECLICKED);
+        ListenerCreation.CreateListener(transform, (sender, e) => TileRightClickEvent(((TileEventArgs)e).Tile), Constants.EventName.TILERIGHTCLICKED);
+        ListenerCreation.CreateListener(transform, (sender, e) => UnitDestroyedEvent(((UnitEventArgs)e).Unit), Constants.EventName.UNITDESTROYED);
     }
 
-    public void SelectUnit(int unitId)
+    private void SelectUnit(int unitId)
     {
         selectedUnit = GameComponents.UnitRegistry.GetUnit(unitId);
     }
 
-    public void DeselectUnit()
+    private void DeselectUnit()
     {
         selectedUnit = null;
     }

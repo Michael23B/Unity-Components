@@ -11,7 +11,7 @@ public class UnitRegistry : MonoBehaviour
 
     private void Awake()
     {
-        Listener.CreateListener(transform, (sender, e) => UnitDestroyedEvent(((UnitEventArgs)e).Unit), Constants.EventName.UNITDESTROYED);
+        ListenerCreation.CreateListener(transform, (sender, e) => UnitDestroyedEvent(((UnitEventArgs)e).Unit), Constants.EventName.UNITDESTROYED);
     }
 
     public bool StartTracking(Unit unit)

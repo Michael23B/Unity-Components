@@ -11,7 +11,7 @@ public class TurnHandler : MonoBehaviour
 
     private void Awake()
     {
-        Listener.CreateListener(transform, (sender, e) => UnitDestroyedEvent(((UnitEventArgs)e).Unit), Constants.EventName.UNITDESTROYED);
+        ListenerCreation.CreateListener(transform, (sender, e) => UnitDestroyedEvent(((UnitEventArgs)e).Unit), Constants.EventName.UNITDESTROYED);
     }
 
     public void StartGame()
@@ -61,14 +61,14 @@ public class TurnHandler : MonoBehaviour
         unitsInRound.Add(unit);
     }
 
-    public void RemoveUnitFromTurnOrder(Unit unit)
+    private void RemoveUnitFromTurnOrder(Unit unit)
     {
         int unitIndex = unitsInRound.FindIndex(el => el.Id == unit.Id);
 
         if (unitIndex == -1) return;
 
         // If the unit we are removing has already taken a turn, the list will shift down so we need to decrease the current index.
-        if (unitIndex < currentTurnIndex) currentTurnIndex--;
+        if (unitIndex <= currentTurnIndex) currentTurnIndex--;
 
         unitsInRound.Remove(unit);
     }
