@@ -34,7 +34,7 @@ public static class UnitCreation
         {
             // If we failed to register with either, clean up and throw
             GameComponents.GridController.StopTracking(unit);
-            GameComponents.UnitRegistry.StopTracking(unit.Id);
+            GameComponents.UnitRegistry.StopTracking(unit);
             Object.Destroy(unit.gameObject);
 
             throw new Exception($"A unit with the id {unit.Id}({unit.GetInstanceID()}) failed to spawn.");

@@ -9,11 +9,6 @@ public class UnitRegistry : MonoBehaviour
 {
     private readonly Dictionary<int, Unit> idToUnitMap = new Dictionary<int, Unit>();
 
-    private void Awake()
-    {
-        ListenerCreation.CreateListener(transform, (sender, e) => UnitDestroyedEvent(((UnitEventArgs)e).Unit), Constants.EventName.UNITDESTROYED);
-    }
-
     public bool StartTracking(Unit unit)
     {
         if (idToUnitMap.ContainsKey(unit.Id)) return false;
@@ -23,9 +18,9 @@ public class UnitRegistry : MonoBehaviour
         return true;
     }
 
-    public bool StopTracking(int id)
+    public bool StopTracking(Unit unit)
     {
-        return idToUnitMap.Remove(id);
+        return idToUnitMap.Remove(unit.Id);
     }
 
     // Returns a Unit registered with the provided id or null if it doesn't exist
@@ -38,13 +33,4 @@ public class UnitRegistry : MonoBehaviour
 
         return null;
     }
-
-    #region Events
-
-    private void UnitDestroyedEvent(Unit unit)
-    {
-        StopTracking(unit.Id);
-    }
-
-    #endregion
 }

@@ -17,8 +17,6 @@ public class GridController : MonoBehaviour
     {
         // Instantiates a grid with all land tiles
         tileGrid = new TileGrid(tilePrefab, new int[rows, columns].Initialize2DArray(1), gridMargin, transform);
-
-        ListenerCreation.CreateListener(transform, (sender, e) => UnitDestroyedEvent(((UnitEventArgs)e).Unit), Constants.EventName.UNITDESTROYED);
     }
 
     public bool StartTracking(Unit unit, int startPositionX, int startPositionY)
@@ -76,13 +74,4 @@ public class GridController : MonoBehaviour
 
         return false;
     }
-
-    #region Events
-
-    private void UnitDestroyedEvent(Unit unit)
-    {
-        tileGrid.StopTracking(unit.Id);
-    }
-
-    #endregion
 }

@@ -4,7 +4,7 @@
  * Selects Units when a tile that has an id is clicked.
  * Listens for events and manipulates the selected Unit.
  */
-public class UnitControlEvents : MonoBehaviour
+public class UnitEvents : MonoBehaviour
 {
     private Unit selectedUnit;
 
@@ -36,6 +36,13 @@ public class UnitControlEvents : MonoBehaviour
     private void UnitDestroyedEvent(Unit unit)
     {
         if (unit.Id == selectedUnit?.Id) DeselectUnit();
+
+        // If we are not quitting, clean up any remaining links to the Unit
+        if (!GameComponents.GameState.IsApplicationQuitting)
+        {
+            GameComponents.GridController.StopTracking(unit);
+            GameComponents.UnitRegistry.StopTracking(unit);
+        }
     }
 
     private void TileClickEvent(Tile tile)

@@ -5,9 +5,10 @@
  */
 public class GameState
 {
-    public void Initialize()
+    public GameState()
     {
         EventHandler.Subscribe((sender, e) => IsApplicationQuitting = true, Constants.EventName.APPLICATIONQUITTING);
+        // TODO on turn start event -> activeUnit === unit
     }
 
     private Action<object, EventArgs> eventListener;

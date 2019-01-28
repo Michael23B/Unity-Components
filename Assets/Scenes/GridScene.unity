@@ -1795,7 +1795,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   turnHandlerPrefab: {fileID: 517754544746989133, guid: 72a19dad71bdfc24eb080c59511ff3f7, type: 3}
   unitRegistryPrefab: {fileID: 1417118850022218696, guid: cbf64734c4932e2499db20cf44be0bb5, type: 3}
-  unitControlEvents: {fileID: 8504150854484895229, guid: 603af214ec5946b469826c3e48259c7a, type: 3}
+  unitEvents: {fileID: 8504150854484895229, guid: 603af214ec5946b469826c3e48259c7a, type: 3}
   gridControllerPrefab: {fileID: 6683010788984612936, guid: f4c7acf6a2f36bc46b9169f836a82ec6, type: 3}
   lifecycleEventsPrefab: {fileID: 1516302926129822017, guid: 3ec4bdf2af991f04084d6ea999ec69ac, type: 3}
 --- !u!4 &2036711152

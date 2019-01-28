@@ -11,7 +11,7 @@ public class PrefabLoader : MonoBehaviour
     [Header("Game Manager Components")]
     [SerializeField] private GameObject turnHandlerPrefab = null;
     [SerializeField] private GameObject unitRegistryPrefab = null;
-    [SerializeField] private GameObject unitControlEvents = null;
+    [SerializeField] private GameObject unitEvents = null;
     [SerializeField] private GameObject gridControllerPrefab = null;
     [SerializeField] private GameObject lifecycleEventsPrefab = null;
 
@@ -37,12 +37,12 @@ public class PrefabLoader : MonoBehaviour
         return go.GetComponent<UnitRegistry>();
     }
 
-    public UnitControlEvents CreateUnitControlEvents()
+    public UnitEvents CreateUnitEvents()
     {
-        GameObject go = Instantiate(unitControlEvents);
+        GameObject go = Instantiate(unitEvents);
         go.transform.parent = transform;
 
-        return go.GetComponent<UnitControlEvents>();
+        return go.GetComponent<UnitEvents>();
     }
 
     public GridController CreateGridController()

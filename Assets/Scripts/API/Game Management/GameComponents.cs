@@ -5,7 +5,7 @@ public static class GameComponents
 {
     private static TurnHandler turnHandler;
     private static UnitRegistry unitRegistry;
-    private static UnitControlEvents unitControlEvents;
+    private static UnitEvents unitEvents;
     private static GridController gridController;
     private static LifecycleEvents lifecycleEvents;
     private static GameState gameState = null;
@@ -36,16 +36,16 @@ public static class GameComponents
         }
     }
 
-    public static UnitControlEvents UnitControlEvents
+    public static UnitEvents UnitEvents
     {
         get
         {
-            if (!unitControlEvents)
+            if (!unitEvents)
             {
-                unitControlEvents = PrefabLoader.Instance.CreateUnitControlEvents();
+                unitEvents = PrefabLoader.Instance.CreateUnitEvents();
             }
 
-            return unitControlEvents;
+            return unitEvents;
         }
     }
 
@@ -82,7 +82,6 @@ public static class GameComponents
             if (gameState == null)
             {
                 gameState = new GameState();
-                gameState.Initialize();
             }
 
             return gameState;

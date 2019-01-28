@@ -8,7 +8,7 @@ public class SetupScene : MonoBehaviour
     private void Start()
     {
         // Game components are lazy loaded, we want to load these ones right away
-        var playerController = GameComponents.UnitControlEvents; // Load UnitControlEvents
+        var unitControlEvents = GameComponents.UnitEvents; // Load UnitEvents
         var gridController = GameComponents.GridController; // Load GridController
         var lifecycleEvents = GameComponents.LifecycleEvents; // Load LifecycleEvents
         var gameState = GameComponents.GameState; // Load GameState
