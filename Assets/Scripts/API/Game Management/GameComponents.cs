@@ -5,7 +5,7 @@ public static class GameComponents
 {
     private static TurnHandler turnHandler;
     private static UnitRegistry unitRegistry;
-    private static PlayerController playerController;
+    private static UnitControlEvents unitControlEvents;
     private static GridController gridController;
     private static LifecycleEvents lifecycleEvents;
     private static GameState gameState = null;
@@ -36,16 +36,16 @@ public static class GameComponents
         }
     }
 
-    public static PlayerController PlayerController
+    public static UnitControlEvents UnitControlEvents
     {
         get
         {
-            if (!playerController)
+            if (!unitControlEvents)
             {
-                playerController = PrefabLoader.Instance.CreatePlayerController();
+                unitControlEvents = PrefabLoader.Instance.CreateUnitControlEvents();
             }
 
-            return playerController;
+            return unitControlEvents;
         }
     }
 

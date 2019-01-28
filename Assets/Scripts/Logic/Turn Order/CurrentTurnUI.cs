@@ -17,4 +17,6 @@ public class CurrentTurnUI : MonoBehaviour
     {
         textComponent.text = $"{unit.Id} is taking turn {turn + 1} of {roundLength}";
     }
+
+    // TODO Turn modified event, when a unit is destroyed or added the ui should be updated
 }

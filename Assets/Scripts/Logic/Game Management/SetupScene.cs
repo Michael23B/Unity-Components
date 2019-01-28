@@ -7,7 +7,8 @@ public class SetupScene : MonoBehaviour
 {
     private void Start()
     {
-        var playerController = GameComponents.PlayerController; // Load PlayerController
+        // Game components are lazy loaded, we want to load these ones right away
+        var playerController = GameComponents.UnitControlEvents; // Load UnitControlEvents
         var gridController = GameComponents.GridController; // Load GridController
         var lifecycleEvents = GameComponents.LifecycleEvents; // Load LifecycleEvents
         var gameState = GameComponents.GameState; // Load GameState
@@ -20,5 +21,12 @@ public class SetupScene : MonoBehaviour
         UnitCreation.CreateAndSetupUnit(ResourceManager.GetUnitPrefab(Constants.UnitPrefabType.Dude), 4, 1);
         UnitCreation.CreateAndSetupUnit(ResourceManager.GetUnitPrefab(Constants.UnitPrefabType.Dude), 4, 2);
         UnitCreation.CreateAndSetupUnit(ResourceManager.GetUnitPrefab(Constants.UnitPrefabType.Dude), 4, 3);
+
+        // Start particle effects
+        UnitActiveParticleEffect.Start();
+        TileHoveredParticleEffect.Start();
+
+        // Starts the first turn
+        GameComponents.TurnHandler.EndTurn();
     }
 }

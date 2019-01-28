@@ -4,7 +4,7 @@
  * Selects Units when a tile that has an id is clicked.
  * Listens for events and manipulates the selected Unit.
  */
-public class PlayerController : MonoBehaviour
+public class UnitControlEvents : MonoBehaviour
 {
     private Unit selectedUnit;
 

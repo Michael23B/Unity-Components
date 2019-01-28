@@ -20,7 +20,7 @@ public class TurnHandler : MonoBehaviour
         totalTurns = 0;
     }
 
-    void NextTurn()
+    private void NextTurn()
     {
         if (unitsInRound.Count == 0) return;
         currentTurnIndex++;
@@ -31,7 +31,7 @@ public class TurnHandler : MonoBehaviour
         EventHandler.Invoke(Constants.EventName.UNITTURNSTARTED, this, new TurnEventArgs(unitsInRound[currentTurnIndex], currentTurnIndex, unitsInRound.Count, totalTurns));
     }
 
-    void NextRound()
+    private void NextRound()
     {
         EventHandler.Invoke(Constants.EventName.ROUNDENDED);
 
