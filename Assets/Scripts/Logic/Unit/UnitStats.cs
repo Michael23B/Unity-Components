@@ -3,12 +3,8 @@
  */
 public class UnitStats
 {
-    private int maxHealth;
-    private int health;
-
-    public UnitStats(int maxHealth)
-    {
-        this.maxHealth = maxHealth;
-        health = maxHealth;
-    }
+    // TODO don't allow setting values publicly
+    public int MaxHealth { get; set; }
+    public int Health { get; set; }
+    public int Team { get; set; }
 }

@@ -14,6 +14,7 @@ public class UnitEvents : MonoBehaviour
         ListenerCreation.CreateListener(transform, (sender, e) => TileClickEvent(((TileEventArgs)e).Tile), Constants.EventName.TILECLICKED);
         ListenerCreation.CreateListener(transform, (sender, e) => TileRightClickEvent(((TileEventArgs)e).Tile), Constants.EventName.TILERIGHTCLICKED);
         ListenerCreation.CreateListener(transform, (sender, e) => UnitDestroyedEvent(((UnitEventArgs)e).Unit), Constants.EventName.UNITDESTROYED);
+        ListenerCreation.CreateListener(transform, (sender, e) => UnitTurnStartedEvent(((TurnEventArgs)e).CurrentUnit), Constants.EventName.UNITTURNSTARTED);
     }
 
     private void SelectUnit(int unitId)
@@ -24,6 +25,13 @@ public class UnitEvents : MonoBehaviour
     private void DeselectUnit()
     {
         selectedUnit = null;
+    }
+
+    private bool CanMoveUnit(Unit unit)
+    {
+        return unit
+               && unit == GameComponents.GameState.ActiveUnit
+               && unit.Stats.Team == 1;
     }
 
     #region Events
@@ -54,12 +62,13 @@ public class UnitEvents : MonoBehaviour
             return;
         }
 
-        // If we have a unit, move it
-        if (selectedUnit)
+        // If we have a unit and it is the active unit, move it
+        if (CanMoveUnit(selectedUnit))
         {
             GameComponents.GridController.MoveUnit(selectedUnit, tile);
-            return;
+            GameComponents.TurnHandler.EndTurn();
         }
+        // TODO else give feedback for not being able to move
     }
 
     private void TileRightClickEvent(Tile tile)
@@ -69,6 +78,28 @@ public class UnitEvents : MonoBehaviour
         {
             Unit target = GameComponents.UnitRegistry.GetUnit(tile.StoredId);
             Destroy(target.gameObject);
+        }
+    }
+
+    private void UnitTurnStartedEvent(Unit unit)
+    {
+        // If the Unit is on the enemy team, perform a random action then end it's turn
+        if (unit.Stats.Team == 2)
+        {
+            UnitAction action = AI.GetAction(unit);
+
+            if (action.ActionType == Constants.ActionType.MOVE)
+            {
+                GameComponents.GridController.MoveUnit(unit, action.Target);
+            }
+            else if (action.ActionType == Constants.ActionType.ATTACK)
+            {
+                // not implemented
+            }
+
+            // TODO wait until the unit has finished its turn (animation/particle effects etc.)
+
+            GameComponents.TurnHandler.EndTurn();
         }
     }
 

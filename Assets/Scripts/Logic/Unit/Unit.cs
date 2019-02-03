@@ -16,12 +16,17 @@ public class Unit : MonoBehaviour
     {
         Id = GetInstanceID();
         Movement = GetComponent<MovementController>();
-        Stats = new UnitStats(10);
+        Stats = new UnitStats();
     }
 
     public void OverrideId(int id)
     {
         Id = id;
+    }
+
+    public void OverrideStats(UnitStats stats)
+    {
+        Stats = stats;
     }
 
     private void OnDestroy()

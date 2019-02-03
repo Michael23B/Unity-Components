@@ -25,9 +25,11 @@ public static class UnitCreation
     }
 
     // Attempts to register the Unit with the GridController & UnitRegistry. Optionally allows a manual override for the id (this will be useful for networking).
-    private static bool Setup(Unit unit, int x, int y, int id = -1)
+    private static bool Setup(Unit unit, int x, int y, UnitStats stats, int id)
     {
+        // Override Unit default values with the provided ones
         if (id != -1) unit.OverrideId(id);
+        if (stats != null) unit.OverrideStats(stats);
 
         // Registers this Unit in the GridController and UnitRegistry
         if (!GameComponents.GridController.StartTracking(unit, x, y) || !GameComponents.UnitRegistry.StartTracking(unit))
@@ -40,6 +42,7 @@ public static class UnitCreation
             throw new Exception($"A unit with the id {unit.Id}({unit.GetInstanceID()}) failed to spawn.");
         }
 
+        // Set the Units world position based on where it is on the grid
         unit.transform.position = GameComponents.GridController.GetPosition(unit);
         GameComponents.TurnHandler.AddUnitToTurnOrder(unit);
 
@@ -47,11 +50,11 @@ public static class UnitCreation
     }
 
     // Creates a Unit from a prefab, assigns it to the grid and registers its id in the idToUnitMap. Returns the new Unit.
-    public static Unit CreateAndSetupUnit(GameObject prefab, int gridLocationX, int gridLocationY, int id = -1)
+    public static Unit CreateAndSetupUnit(GameObject prefab, int gridLocationX, int gridLocationY, UnitStats stats = null, int id = -1)
     {
         // Create unit and set it up on the GridController
         Unit unit = CreateUnit(prefab);
-        Setup(unit, gridLocationX, gridLocationY, id);
+        Setup(unit, gridLocationX, gridLocationY, stats, id);
 
         return unit;
     }
