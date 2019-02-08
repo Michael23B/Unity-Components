@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Experimental.PlayerLoop;
 
 /*
  * Stores data and unit-related classes for other classes to access.
@@ -27,6 +28,56 @@ public class Unit : MonoBehaviour
     public void OverrideStats(UnitStats stats)
     {
         Stats = stats;
+    }
+
+    public void Act(UnitAction action)
+    {
+        switch (action.ActionType)
+        {
+            case Constants.ActionType.MOVE:
+
+                // If we successfully update our position on the grid, move to that tile
+                if (GameComponents.GridController.MoveUnit(this, action.Target))
+                {
+                    Movement.StartMoving(action.Target.GetPositionWithOffset());
+                    Debug.Log($"{Id} moved");
+                }
+
+                break;
+            case Constants.ActionType.ATTACK:
+                
+                Unit target = GameComponents.UnitRegistry.GetUnit(action.Target.StoredId);
+                if (target)
+                {
+                    Attack(target);
+                    Debug.Log($"{Id} attacked");
+                }
+
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void Damage(int amount)
+    {
+        Stats.Health -= amount;
+
+        if (Stats.Health <= 0)
+        {
+            Die();
+        }
+    }
+
+    private void Attack(Unit target)
+    {
+        target.Damage(1);
+    }
+
+    private void Die()
+    {
+        Debug.Log($"{Id} died");
+        Destroy(gameObject);
     }
 
     private void OnDestroy()

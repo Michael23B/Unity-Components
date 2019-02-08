@@ -65,13 +65,6 @@ public class GridController : MonoBehaviour
 
     public bool MoveUnit(Unit unit, Tile tile)
     {
-        // If we successfully set our position on the grid, start moving the Unit
-        // TODO Grid shouldnt know how to move a unit, separate this
-        if (tileGrid.SetGridLocation(unit.Id, tile.X, tile.Y))
-        {
-            unit.Movement.StartMoving(tile.GetPositionWithOffset());
-        }
-
-        return false;
+        return tileGrid.SetGridLocation(unit.Id, tile.X, tile.Y);
     }
 }
