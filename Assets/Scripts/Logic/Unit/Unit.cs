@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.Experimental.PlayerLoop;
 
 /*
  * Stores data and unit-related classes for other classes to access.

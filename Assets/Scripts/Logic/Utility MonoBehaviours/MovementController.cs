@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 // TODO this can be refactored so we don't have an additional update loop running.
 
@@ -12,6 +13,7 @@ public class MovementController : MonoBehaviour
     private bool isMoving;
     private float dist;
     private Vector3 target;
+    private Action onTargetReached;
 
     void Update()
     {
@@ -22,6 +24,7 @@ public class MovementController : MonoBehaviour
         if (dist < 0.1)
         {
             StopMoving();
+            onTargetReached?.Invoke(); // If we have a target reached method, call it now
             return;
         }
 
@@ -45,5 +48,10 @@ public class MovementController : MonoBehaviour
     public void StopMoving()
     {
         isMoving = false;
+    }
+
+    public void AddOnTargetReached(Action action)
+    {
+        onTargetReached = action;
     }
 }
